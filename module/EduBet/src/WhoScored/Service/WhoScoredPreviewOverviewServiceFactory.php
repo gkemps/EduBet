@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Geert
- * Date: 18-2-2017
- * Time: 10:59
- */
-
 namespace EduBet\WhoScored\Service;
 
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 
-class WhoScoredPreviewOverviewServiceFactory
+class WhoScoredPreviewOverviewServiceFactory implements FactoryInterface
 {
-
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        return new WhoScoredPreviewOverviewService();
+    }
 }

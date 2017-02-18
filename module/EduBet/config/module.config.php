@@ -1,33 +1,33 @@
 <?php
 namespace EduBet;
 
-use Zend\Router\Http\Literal;
-use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
         'routes' => [
-            'home' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route'    => '/',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
+
+        ],
+    ],
+    'console' => [
+        'router' => [
+            'routes' => [
+                'preview-overview' => [
+                    'options' => [
+                        'route'    => 'preview-overview',
+                        'defaults' => [
+                            'controller' => 'EduBet\WhoScored\WhoScoredController',
+                            'action'     => 'previewOverview',
+                        ],
                     ],
                 ],
-            ],
-            'application' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/application[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
-                    ],
-                ],
-            ],
+            ]
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            WhoScored\Command\PreviewOverview::class => WhoScored\Command\PreviewOverviewFactory::class,
+            WhoScored\Service\WhoScoredPreviewOverviewService::class => WhoScored\Service\WhoScoredPreviewOverviewServiceFactory::class
         ],
     ],
     'controllers' => [
