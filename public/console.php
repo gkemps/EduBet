@@ -7,18 +7,15 @@ include __DIR__ . '/../vendor/autoload.php';
 
 define('VERSION', '1.1.3');
 
-$config = include __DIR__ . '/../module/EduBet/config/module.config.php';
-
-$serviceManager = new \Zend\ServiceManager\ServiceManager(
-    $config['service_manager']
-);
+$application = Zend\Mvc\Application::init(require __DIR__ . '/../config/application.config.php');
+$services    = $application->getServiceManager();
 
 $application = new Application(
     'Builder',
     VERSION,
     include __DIR__ . '/../module/EduBet/config/console-routes.config.php',
     Console::getInstance(),
-    new Dispatcher($serviceManager)
+    new Dispatcher($services)
 );
 
 $exit = $application->run();

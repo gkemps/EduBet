@@ -1,11 +1,157 @@
 <?php
 namespace EduBet\WhoScored\Service;
 
+use DateTime;
+use DOMDocument;
+use DOMElement;
+use DOMXPath;
+use EduBet\Match\Exception\MatchAlreadyExistsException;
+use EduBet\Match\Service\MatchService;
+use EduBet\Scrapy\Service\ScrapyService;
+use EduBet\Team\Service\TeamService;
+use EduBet\Tournament\Entity\Tournament;
+use EduBet\Tournament\Service\TournamentService;
+
 class WhoScoredPreviewOverviewService
 {
+    /** @var TeamService  */
+    protected $teamService;
+
+    /** @var TournamentService  */
+    protected $tournamentService;
+
+    /** @var MatchService  */
+    protected $matchService;
+
+    /** @var ScrapyService  */
+    protected $scrapyService;
+
+    /**
+     * WhoScoredPreviewOverviewService constructor.
+     * @param TeamService $teamService
+     * @param TournamentService $tournamentService
+     * @param MatchService $matchService
+     * @param ScrapyService $scrapyService
+     */
+    public function __construct(
+        TeamService $teamService,
+        TournamentService $tournamentService,
+        MatchService $matchService,
+        ScrapyService $scrapyService
+    ) {
+        $this->teamService = $teamService;
+        $this->tournamentService = $tournamentService;
+        $this->matchService = $matchService;
+        $this->scrapyService = $scrapyService;
+    }
 
     public function extractPreviewMatches(string $html)
     {
+        $doc = new DOMDocument();
+        @$doc->loadHTML($html);
 
+        $xpath = new DOMXpath($doc);
+        $result = $xpath->query("//table");
+
+        /** @var  DOMElement $table */
+        $currentDay = "";
+        $currentTime = "";
+        $tournament = null;
+        foreach ($result as $table) {
+            /** @var DomElement $tr */
+            foreach ($table->firstChild->childNodes as $tr) {
+                if (!$tr->hasChildNodes()) {
+                    continue;
+                }
+                /** @var DomElement $td */
+                foreach ($tr->childNodes as $td) {
+                    if (get_class($td) == "DOMText") {
+                        continue;
+                    }
+                    if ($td->getAttribute('class') == "previews-date") {
+                        $currentDay = trim(substr($td->nodeValue, 0, strpos($td->nodeValue, ",")));
+                    }
+                    if ($td->getAttribute('class') == "time") {
+                        $currentTime = trim($td->nodeValue);
+                    }
+                    $tournament = $this->findTournament($td) ?? $tournament;
+                    if (false != stripos($td->nodeValue, " vs ")) {
+                        $dateTime = new \DateTime();
+                        $dateTime->setTimestamp(strtotime($currentDay." ".$currentTime));
+
+                        list($home, $away) = explode(" vs ", trim($td->nodeValue));
+                        $homeTeam = $this->teamService->findOrCreateTeam($home);
+                        $awayTeam = $this->teamService->findOrCreateTeam($away);
+
+                        $whoScoredId = $this->extractMatchWhoScoredId($td);
+
+                        try {
+                            $match = $this->matchService->createNewMatch(
+                                $tournament,
+                                $homeTeam,
+                                $awayTeam,
+                                $dateTime,
+                                $whoScoredId
+                            );
+                            $this->scrapyService->createScrapy($match);
+                        } catch (MatchAlreadyExistsException $e) {
+                            $this->log($e->getMessage());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @param DOMElement $td
+     * @return int|null
+     */
+    protected function extractMatchWhoScoredId(DOMElement $td)
+    {
+        if ($td->hasChildNodes() && $td->childNodes->length == 3) {
+            /** @var DOMElement $node */
+            foreach ($td->childNodes as $node) {
+                if ($node instanceof DOMElement && $node->tagName == "a" && false != stripos($node->getAttribute('href'), "preview")) {
+                    $name = trim($node->nodeValue);
+                    $href = explode("/", $node->getAttribute('href'));
+                    $whoScoredId = (int) $href[2];
+
+                    return $whoScoredId;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param DOMElement $td
+     * @return Tournament|null
+     */
+    protected function findTournament (DOMElement $td)
+    {
+        if ($td->hasChildNodes() && $td->childNodes->length == 3) {
+            /** @var DOMElement $node */
+            foreach ($td->childNodes as $node) {
+                if ($node instanceof DOMElement && $node->tagName == "a" && false != stripos($node->getAttribute('href'), "tournament")) {
+                    $name = trim($node->nodeValue);
+                    $href = explode("/", $node->getAttribute('href'));
+                    $whoScoredId = (int) $href[4];
+
+                    return $this->tournamentService->findOrCreateWhoScoredTournament($whoScoredId, $name);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $message
+     */
+    protected function log(string $message)
+    {
+        print $message . "\r\n";
     }
 }

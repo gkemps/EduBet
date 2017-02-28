@@ -8,6 +8,23 @@ class WhoScoredPreviewOverviewServiceFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new WhoScoredPreviewOverviewService();
+        /** @var \EduBet\Team\Service\TeamService $teamService */
+        $teamService = $container->get("EduBet\Team\Service\TeamService");
+
+        /** @var \EduBet\Tournament\Service\TournamentService $tournamentService */
+        $tournamentService = $container->get("EduBet\Tournament\Service\TournamentService");
+
+        /** @var \EduBet\Match\Service\MatchService $matchService */
+        $matchService = $container->get("EduBet\Match\Service\MatchService");
+
+        /** @var \EduBet\Scrapy\Service\ScrapyService $scrapyService */
+        $scrapyService = $container->get("EduBet\Scrapy\Service\ScrapyService");
+
+        return new WhoScoredPreviewOverviewService(
+            $teamService,
+            $tournamentService,
+            $matchService,
+            $scrapyService
+        );
     }
 }
