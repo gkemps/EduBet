@@ -20,7 +20,7 @@ class PreviewOverview
 
     public function __invoke()
     {
-        $html = file_get_contents("data/who-scored/preview/previews.html");
+        $html = file_get_contents("data/preview/previews.html");
 
         $this->whoScoredPreviewOverviewService->extractPreviewMatches($html);
     }
