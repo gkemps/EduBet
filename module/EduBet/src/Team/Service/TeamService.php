@@ -56,6 +56,17 @@ class TeamService
 
     /**
      * @param Team $team
+     * @return Team
+     */
+    public function updateTeam(Team $team)
+    {
+        $this->persist($team);
+
+        return $team;
+    }
+
+    /**
+     * @param Team $team
      */
     protected function persist(Team $team)
     {
@@ -63,6 +74,9 @@ class TeamService
         $this->em->flush();
     }
 
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
     protected function getRepository()
     {
         return $this->em->getRepository("EduBet\Team\Entity\Team");

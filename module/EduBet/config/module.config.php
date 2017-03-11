@@ -16,21 +16,6 @@ return [
             ),
         ],
     ],
-    'console' => [
-        'router' => [
-            'routes' => [
-                'preview-overview' => [
-                    'options' => [
-                        'route'    => 'preview-overview',
-                        'defaults' => [
-                            'controller' => 'EduBet\WhoScored\WhoScoredController',
-                            'action'     => 'previewOverview',
-                        ],
-                    ],
-                ],
-            ]
-        ],
-    ],
     'service_manager' => [
         'factories' => [
             Match\Service\MatchService::class => Match\Service\MatchServiceFactory::class,
@@ -38,7 +23,10 @@ return [
             Team\Service\TeamService::class => Team\Service\TeamServiceFactory::class,
             Tournament\Service\TournamentService::class => Tournament\Service\TournamentServiceFactory::class,
             WhoScored\Command\PreviewOverview::class => WhoScored\Command\PreviewOverviewFactory::class,
-            WhoScored\Service\WhoScoredPreviewOverviewService::class => WhoScored\Service\WhoScoredPreviewOverviewServiceFactory::class
+            WhoScored\Command\PreviewMatches::class => WhoScored\Command\PreviewMatchesFactory::class,
+            WhoScored\Service\WhoScoredPreviewOverviewService::class => WhoScored\Service\WhoScoredPreviewOverviewServiceFactory::class,
+            WhoScored\Service\WhoScoredPreviewMatchesService::class => WhoScored\Service\WhoScoredPreviewMatchesServiceFactory::class,
+            WhoScoredPreview\Service\WhoScoredPreviewService::class => WhoScoredPreview\Service\WhoScoredPreviewServiceFactory::class
         ],
     ],
     'controllers' => [
@@ -53,11 +41,12 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
-                    __DIR__.'/../src/EduBet/Match/Entity',
-                    __DIR__.'/../src/EduBet/Result/Entity',
-                    __DIR__.'/../src/EduBet/Scrapy/Entity',
-                    __DIR__.'/../src/EduBet/Team/Entity',
-                    __DIR__.'/../src/EduBet/Tournament/Entity',
+                    __DIR__.'/../src/Match/Entity',
+                    __DIR__.'/../src/Result/Entity',
+                    __DIR__.'/../src/Scrapy/Entity',
+                    __DIR__.'/../src/Team/Entity',
+                    __DIR__.'/../src/Tournament/Entity',
+                    __DIR__.'/../src/WhoScoredPreview/Entity',
                 ),
             ),
 
@@ -71,6 +60,7 @@ return [
                     'EduBet\Scrapy' => 'my_annotation_driver',
                     'EduBet\Team' => 'my_annotation_driver',
                     'EduBet\Tournament' => 'my_annotation_driver',
+                    'EduBet\WhoScoredPreview' => 'my_annotation_driver',
                 )
             )
         )

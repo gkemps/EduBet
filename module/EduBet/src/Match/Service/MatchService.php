@@ -25,7 +25,7 @@ class MatchService
 
     /**
      * @param int $whoScoredId
-     * @return mixed
+     * @return Match
      */
     public function getWhoScoredMatch(int $whoScoredId)
     {

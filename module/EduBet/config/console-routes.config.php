@@ -10,4 +10,13 @@ return array(
         'defaults' => array(),
         'handler' => EduBet\WhoScored\Command\PreviewOverview::class,
     ),
+    array(
+        'name' => 'preview-matches',
+        'route' => 'preview-matches',
+        'description' => 'Analyze the detail pages of all crawled matches',
+        'short_description' => 'Analyse WhoScored match pages',
+        'options_descriptions' => array(),
+        'defaults' => array(),
+        'handler' => EduBet\WhoScored\Command\PreviewMatches::class,
+    ),
 );

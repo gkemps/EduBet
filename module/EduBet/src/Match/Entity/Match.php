@@ -5,6 +5,7 @@ use DateTime;
 use EduBet\Team\Entity\Team;
 use EduBet\Tournament\Entity\Tournament;
 use Doctrine\ORM\Mapping as ORM;
+use EduBet\WhoScoredPreview\Entity\WhoScoredPreview;
 
 /**
  * @ORM\Entity
@@ -58,6 +59,14 @@ class Match
      * @var int
      */
     protected $whoScoredId;
+
+    /**
+     * One Customer has One Cart.
+     * @ORM\OneToOne(targetEntity="EduBet\WhoScoredPreview\Entity\WhoScoredPreview", mappedBy="match")
+     *
+     * @var WhoScoredPreview
+     */
+    protected $whoScoredPreview;
 
     /**
      * @return int
@@ -156,6 +165,22 @@ class Match
     public function setWhoScoredId($whoScoredId)
     {
         $this->whoScoredId = $whoScoredId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWhoScoredPreview()
+    {
+        return $this->whoScoredPreview;
+    }
+
+    /**
+     * @param mixed $whoScoredPreview
+     */
+    public function setWhoScoredPreview($whoScoredPreview)
+    {
+        $this->whoScoredPreview = $whoScoredPreview;
     }
 
     /**
