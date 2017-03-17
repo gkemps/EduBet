@@ -40,6 +40,14 @@ class TournamentService
     }
 
     /**
+     * @return array|Tournament[]
+     */
+    public function getTournaments()
+    {
+        return $this->getRepository()->findAll();
+    }
+
+    /**
      * @param string $name
      * @param int|null $whoScoredId
      * @return Tournament

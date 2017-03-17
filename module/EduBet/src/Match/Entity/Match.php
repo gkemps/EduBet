@@ -2,6 +2,7 @@
 namespace EduBet\Match\Entity;
 
 use DateTime;
+use EduBet\Odds\Entity\Odds;
 use EduBet\Team\Entity\Team;
 use EduBet\Tournament\Entity\Tournament;
 use Doctrine\ORM\Mapping as ORM;
@@ -61,12 +62,25 @@ class Match
     protected $whoScoredId;
 
     /**
-     * One Customer has One Cart.
+     * @ORM\Column(type="integer")
+     *
+     * @var int
+     */
+    protected $betfairId;
+
+    /**
      * @ORM\OneToOne(targetEntity="EduBet\WhoScoredPreview\Entity\WhoScoredPreview", mappedBy="match")
      *
      * @var WhoScoredPreview
      */
     protected $whoScoredPreview;
+
+    /**
+     * @ORM\OneToOne(targetEntity="EduBet\Odds\Entity\Odds", mappedBy="match", cascade={"persist"})
+     *
+     * @var Odds
+     */
+    protected $odds;
 
     /**
      * @return int
@@ -168,6 +182,22 @@ class Match
     }
 
     /**
+     * @return int
+     */
+    public function getBetfairId()
+    {
+        return $this->betfairId;
+    }
+
+    /**
+     * @param int $betfairId
+     */
+    public function setBetfairId($betfairId)
+    {
+        $this->betfairId = $betfairId;
+    }
+
+    /**
      * @return mixed
      */
     public function getWhoScoredPreview()
@@ -181,6 +211,24 @@ class Match
     public function setWhoScoredPreview($whoScoredPreview)
     {
         $this->whoScoredPreview = $whoScoredPreview;
+    }
+
+    /**
+     * @return Odds
+     */
+    public function getOdds()
+    {
+        return $this->odds;
+    }
+
+    /**
+     * @param Odds $odds
+     */
+    public function setOdds($odds)
+    {
+        $odds->setMatch($this);
+
+        $this->odds = $odds;
     }
 
     /**

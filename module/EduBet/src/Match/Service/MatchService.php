@@ -10,7 +10,7 @@ use EduBet\Tournament\Entity\Tournament;
 
 class MatchService
 {
-    /** @var EntityManagerInterface  */
+    /** @var EntityManagerInterface */
     protected $em;
 
     /**
@@ -69,7 +69,7 @@ class MatchService
         );
 
         if (!is_null($match)) {
-            throw new MatchAlreadyExistsException("Match already exists: ".$match->toString());
+            throw new MatchAlreadyExistsException("Match already exists: " . $match->toString());
         }
 
         $match = new Match();
@@ -83,6 +83,64 @@ class MatchService
         $this->log($match->toString());
 
         return $match;
+    }
+
+    /**
+     * @param Match $match
+     * @return Match
+     */
+    public function updateMatch(Match $match)
+    {
+        $this->persist($match);
+
+        return $match;
+    }
+
+    /**
+     * @param Team $homeTeam
+     * @param int $timestamp
+     * @return null|Match
+     */
+    public function findMatchByHomeTeam(
+        Team $homeTeam,
+        int $timestamp
+    ) {
+        return $this->getRepository()->findOneBy(
+            [
+                'homeTeam' => $homeTeam->getId(),
+                'timestamp' => $timestamp
+            ]
+        );
+    }
+
+    /**
+     * @param Team $awayTeam
+     * @param int $timestamp
+     * @return null|Match
+     */
+    public function findMatchByAwayTeam(
+        Team $awayTeam,
+        int $timestamp
+    ) {
+        return $this->getRepository()->findOneBy(
+            [
+                'awayTeam' => $awayTeam->getId(),
+                'timestamp' => $timestamp
+            ]
+        );
+    }
+
+    /**
+     * @param int $betfairId
+     * @return null|Match
+     */
+    public function findMatchByBetfairId(int $betfairId)
+    {
+        return $this->getRepository()->findOneBy(
+            [
+                'betfairId' => $betfairId
+            ]
+        );
     }
 
     /**

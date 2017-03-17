@@ -31,6 +31,12 @@ class Tournament
     protected $whoScoredId;
 
     /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $betfairId;
+
+    /**
      * @return int
      */
     public function getId()
@@ -68,5 +74,21 @@ class Tournament
     public function setWhoScoredId($whoScoredId)
     {
         $this->whoScoredId = $whoScoredId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBetfairId()
+    {
+        return $this->betfairId;
+    }
+
+    /**
+     * @param int $betfairId
+     */
+    public function setBetfairId($betfairId)
+    {
+        $this->betfairId = $betfairId;
     }
 }

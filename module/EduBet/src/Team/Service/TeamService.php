@@ -25,17 +25,26 @@ class TeamService
      */
     public function findOrCreateTeam(string $name)
     {
-        $team = $this->getRepository()->findOneBy(
-            [
-                'name' => $name,
-            ]
-        );
+        $team = $this->findTeam($name);
 
         if (is_null($team)) {
             $team = $this->createNewTeam($name);
         }
 
         return $team;
+    }
+
+    /**
+     * @param string $name
+     * @return null|Team
+     */
+    public function findTeam(string $name)
+    {
+        return $this->getRepository()->findOneBy(
+            [
+                'name' => $name,
+            ]
+        );
     }
 
     /**

@@ -19,4 +19,13 @@ return array(
         'defaults' => array(),
         'handler' => EduBet\WhoScored\Command\PreviewMatches::class,
     ),
+    array(
+        'name' => 'betfair-odds',
+        'route' => 'betfair-odds',
+        'description' => 'Analyze Betfair Odds',
+        'short_description' => 'Analyze Betfair Odds',
+        'options_descriptions' => array(),
+        'defaults' => array(),
+        'handler' => EduBet\Betfair\Command\BetfairOdds::class,
+    ),
 );

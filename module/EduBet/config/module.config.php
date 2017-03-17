@@ -18,6 +18,9 @@ return [
     ],
     'service_manager' => [
         'factories' => [
+            Betfair\Command\BetfairOdds::class => Betfair\Command\BetfairOddsFactory::class,
+            Betfair\Service\BetfairService::class => Betfair\Service\BetfairServiceFactory::class,
+            Odds\Service\OddsService::class => Odds\Service\OddsServiceFactory::class,
             Match\Service\MatchService::class => Match\Service\MatchServiceFactory::class,
             Scrapy\Service\ScrapyService::class => Scrapy\Service\ScrapyServiceFactory::class,
             Team\Service\TeamService::class => Team\Service\TeamServiceFactory::class,
@@ -41,6 +44,7 @@ return [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
                 'paths' => array(
+                    __DIR__.'/../src/Odds/Entity',
                     __DIR__.'/../src/Match/Entity',
                     __DIR__.'/../src/Result/Entity',
                     __DIR__.'/../src/Scrapy/Entity',
@@ -55,6 +59,7 @@ return [
             'orm_default' => array(
                 'drivers' => array(
                     // register `my_annotation_driver` for any entity under namespace `My\Namespace`
+                    'EduBet\Odds' => 'my_annotation_driver',
                     'EduBet\Match' => 'my_annotation_driver',
                     'EduBet\Result' => 'my_annotation_driver',
                     'EduBet\Scrapy' => 'my_annotation_driver',
