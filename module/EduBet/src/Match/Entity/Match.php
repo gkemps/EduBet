@@ -198,7 +198,7 @@ class Match
     }
 
     /**
-     * @return mixed
+     * @return WhoScoredPreview
      */
     public function getWhoScoredPreview()
     {

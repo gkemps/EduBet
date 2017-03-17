@@ -96,4 +96,12 @@ class WhoScoredPreview
     {
         $this->match = $match;
     }
+
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->homeScore." - ".$this->awayScore;
+    }
 }

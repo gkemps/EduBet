@@ -25,7 +25,9 @@ class IndexController extends AbstractActionController
         $matches = $this->matchService->getMatches();
 
         return new ViewModel(
-            $matches
+            [
+                'matches' => $matches
+            ]
         );
     }
 }

@@ -125,6 +125,6 @@ class Odds
      */
     public function toString()
     {
-        return $this->getHome()."/".$this->getDraw()."/".$this->getAway();
+        return $this->getHome()." / ".$this->getDraw()." / ".$this->getAway();
     }
 }

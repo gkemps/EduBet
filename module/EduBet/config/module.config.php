@@ -4,10 +4,10 @@ namespace EduBet;
 return [
     'router' => [
         'routes' => [
-            'matches' => array(
+            'home' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/matches',
+                    'route'    => '/',
                     'defaults' => array(
                         'controller' => 'EduBet\Controller\IndexController',
                         'action'     => 'index',

@@ -1,0 +1,49 @@
+<?php
+    /** @var Match[] $matches */
+use EduBet\Match\Entity\Match;
+
+?>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Tijdstip</th>
+        <th>Thuis</th>
+        <th>Uit</th>
+        <th>Competitie</th>
+        <th>WhoScored</th>
+        <th>Odds</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($matches as $match): ?>
+        <tr>
+            <th scope="row">
+                <?php echo strftime("%a %e %b %R", $match->getTimestamp()); ?>
+            </th>
+            <td>
+                <?php echo $match->getHomeTeam()->getName(); ?>
+            </td>
+            <td>
+                <?php echo $match->getAwayTeam()->getName(); ?>
+            </td>
+            <td>
+                <?php echo $match->getTournament()->getName(); ?>
+            </td>
+            <td>
+                <?php
+                    if (null != $match->getWhoScoredPreview()) {
+                        echo $match->getWhoScoredPreview()->toString();
+                    }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (null != $match->getOdds()) {
+                    echo $match->getOdds()->toString();
+                }
+                ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

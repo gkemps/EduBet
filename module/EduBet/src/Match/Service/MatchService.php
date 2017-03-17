@@ -41,7 +41,13 @@ class MatchService
      */
     public function getMatches()
     {
-        return $this->getRepository()->findAll();
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from("EduBet\Match\Entity\Match", "m")
+            ->orderBy("m.timestamp");
+
+        return $qb->getQuery()->getResult();
     }
 
     /**
