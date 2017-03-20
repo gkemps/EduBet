@@ -2,6 +2,7 @@
 namespace EduBet\WhoScored\Command;
 
 use EduBet\WhoScored\Service\WhoScoredPreviewOverviewService;
+use Exception;
 
 class PreviewOverview
 {
@@ -22,6 +23,10 @@ class PreviewOverview
     {
         $html = file_get_contents("data/preview/previews.html");
 
-        $this->whoScoredPreviewOverviewService->extractPreviewMatches($html);
+        try {
+            $this->whoScoredPreviewOverviewService->extractPreviewMatches($html);
+        } catch (Exception $e) {
+            die ($e->getMessage());
+        }
     }
 }
