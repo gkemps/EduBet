@@ -11,7 +11,22 @@ use EduBet\Match\Entity\Match;
         <th>Uit</th>
         <th>Competitie</th>
         <th>WhoScored</th>
-        <th>Odds</th>
+        <th colspan="3">Betfair Odds</th>
+        <th colspan="4">PickForWin</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>1</th>
+        <th>X</th>
+        <th>2</th>
+        <th>1</th>
+        <th>X</th>
+        <th>2</th>
+        <th>Pick</th>
     </tr>
     </thead>
     <tbody>
@@ -32,15 +47,57 @@ use EduBet\Match\Entity\Match;
             </td>
             <td>
                 <?php
-                if (null != $match->getWhoScoredPreview()) {
-                    echo $match->getWhoScoredPreview()->toString();
+                    if (null != $match->getWhoScoredPreview()) {
+                        echo $match->getWhoScoredPreview()->toString();
+                    }
+                ?>
+            </td>
+            <td>
+                <?php
+                    if (null != $match->getOdds()) {
+                        echo $match->getOdds()->getHome();
+                    }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (null != $match->getOdds()) {
+                    echo $match->getOdds()->getDraw();
                 }
                 ?>
             </td>
             <td>
                 <?php
                 if (null != $match->getOdds()) {
-                    echo $match->getOdds()->toString();
+                    echo $match->getOdds()->getAway();
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (null != $match->getPickForWin()) {
+                    echo $match->getPickForWin()->getHome()."%";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (null != $match->getPickForWin()) {
+                    echo $match->getPickForWin()->getDraw()."%";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (null != $match->getPickForWin()) {
+                    echo $match->getPickForWin()->getAway()."%";
+                }
+                ?>
+            </td>
+            <td>
+                <?php
+                if (null != $match->getPickForWin()) {
+                    echo $match->getPickForWin()->getPick();
                 }
                 ?>
             </td>

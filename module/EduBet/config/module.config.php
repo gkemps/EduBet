@@ -67,6 +67,7 @@ return [
                 'cache' => 'array',
                 'paths' => array(
                     __DIR__.'/../src/Odds/Entity',
+                    __DIR__.'/../src/PickForWin/Entity',
                     __DIR__.'/../src/Match/Entity',
                     __DIR__.'/../src/Result/Entity',
                     __DIR__.'/../src/Scrapy/Entity',
@@ -82,6 +83,7 @@ return [
                 'drivers' => array(
                     // register `my_annotation_driver` for any entity under namespace `My\Namespace`
                     'EduBet\Odds' => 'my_annotation_driver',
+                    'EduBet\PickForWin' => 'my_annotation_driver',
                     'EduBet\Match' => 'my_annotation_driver',
                     'EduBet\Result' => 'my_annotation_driver',
                     'EduBet\Scrapy' => 'my_annotation_driver',

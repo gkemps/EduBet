@@ -3,6 +3,7 @@ namespace EduBet\Match\Entity;
 
 use DateTime;
 use EduBet\Odds\Entity\Odds;
+use EduBet\PickForWin\Entity\PickForWin;
 use EduBet\Team\Entity\Team;
 use EduBet\Tournament\Entity\Tournament;
 use Doctrine\ORM\Mapping as ORM;
@@ -81,6 +82,13 @@ class Match
      * @var Odds
      */
     protected $odds;
+
+    /**
+     * @ORM\OneToOne(targetEntity="EduBet\PickForWin\Entity\PickForWin", mappedBy="match", cascade={"persist"})
+     *
+     * @var PickForWin
+     */
+    protected $pickForWin;
 
     /**
      * @return int
@@ -229,6 +237,24 @@ class Match
         $odds->setMatch($this);
 
         $this->odds = $odds;
+    }
+
+    /**
+     * @return PickForWin
+     */
+    public function getPickForWin()
+    {
+        return $this->pickForWin;
+    }
+
+    /**
+     * @param PickForWin $pickForWin
+     */
+    public function setPickForWin($pickForWin)
+    {
+        $pickForWin->setMatch($this);
+
+        $this->pickForWin = $pickForWin;
     }
 
     /**

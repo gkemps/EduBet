@@ -37,6 +37,12 @@ class Tournament
     protected $betfairId;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $pickForWinId;
+
+    /**
      * @return int
      */
     public function getId()
@@ -90,5 +96,21 @@ class Tournament
     public function setBetfairId($betfairId)
     {
         $this->betfairId = $betfairId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPickForWinId()
+    {
+        return $this->pickForWinId;
+    }
+
+    /**
+     * @param string $pickForWinId
+     */
+    public function setPickForWinId($pickForWinId)
+    {
+        $this->pickForWinId = $pickForWinId;
     }
 }

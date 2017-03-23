@@ -66,6 +66,21 @@ class MatchService
     }
 
     /**
+     * @return array|Match[]
+     */
+    public function getResults()
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from("EduBet\Match\Entity\Match", "m")
+            ->where($qb->expr()->lte("m.timestamp", time() + (100 * 60)))
+            ->orderBy("m.timestamp");
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param Tournament $tournament
      * @param Team $homeTeam
      * @param Team $awayTeam
@@ -132,8 +147,8 @@ class MatchService
         $qb->select("m")
             ->from("EduBet\Match\Entity\Match", "m")
             ->where($qb->expr()->eq("m.homeTeam", $homeTeam->getId()))
-            ->andWhere($qb->expr()->gte("m.timestamp", $timestamp - (6 * 3600)))
-            ->andWhere($qb->expr()->lte("m.timestamp", $timestamp + (6 * 3600)));
+            ->andWhere($qb->expr()->gte("m.timestamp", $timestamp - (24 * 3600)))
+            ->andWhere($qb->expr()->lte("m.timestamp", $timestamp + (24 * 3600)));
 
         return $qb->getQuery()->getOneOrNullResult();
     }
@@ -152,8 +167,8 @@ class MatchService
         $qb->select("m")
             ->from("EduBet\Match\Entity\Match", "m")
             ->where($qb->expr()->eq("m.awayTeam", $awayTeam->getId()))
-            ->andWhere($qb->expr()->gte("m.timestamp", $timestamp - (6 * 3600)))
-            ->andWhere($qb->expr()->lte("m.timestamp", $timestamp + (6 * 3600)));
+            ->andWhere($qb->expr()->gte("m.timestamp", $timestamp - (24 * 3600)))
+            ->andWhere($qb->expr()->lte("m.timestamp", $timestamp + (24 * 3600)));
 
         return $qb->getQuery()->getOneOrNullResult();
     }

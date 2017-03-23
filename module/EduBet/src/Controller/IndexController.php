@@ -44,6 +44,12 @@ class IndexController extends AbstractActionController
 
     public function resultsAction()
     {
+        $matches = $this->matchService->getResults();
 
+        return new ViewModel(
+            [
+                'matches' => $matches
+            ]
+        );
     }
 }

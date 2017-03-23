@@ -40,6 +40,19 @@ class TournamentService
     }
 
     /**
+     * @param string $pickForWinId
+     * @return null|object
+     */
+    public function getTournamentByPickForWinId(string $pickForWinId)
+    {
+        return $this->getRepository()->findOneBy(
+            [
+                'pickForWinId' => $pickForWinId,
+            ]
+        );
+    }
+
+    /**
      * @return array|Tournament[]
      */
     public function getTournaments()
