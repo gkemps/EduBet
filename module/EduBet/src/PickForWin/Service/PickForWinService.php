@@ -135,6 +135,7 @@ class PickForWinService
                 }
             }
             $date->add(new \DateInterval("P1D"));
+            sleep(2);
         }
     }
 
