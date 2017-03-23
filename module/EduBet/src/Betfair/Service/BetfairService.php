@@ -79,6 +79,7 @@ class BetfairService
             if (null == $tournament->getBetfairId()) {
                 continue;
             }
+            print "Competition: ".$tournament->getName()."\r\n";
             $betfairCompetitionId = $tournament->getBetfairId();
 
             $markets = $this->getNextCompetitionMarketIds(
@@ -86,6 +87,7 @@ class BetfairService
                 $accessToken
             );
             foreach ($markets as $market) {
+                print "Market found: ".$market->event->name."\r\n";
                 $match = $this->findMatch($market);
                 if (is_null($match)) {
                     continue;
@@ -147,11 +149,11 @@ class BetfairService
                 $matchOdds = isset($odds) ? $odds : new Odds();
                 foreach ($marketBook->runners as $id => $runner) {
                     if ($id == 0) {
-                        $matchOdds->setHome($runner->ex->availableToBack[$id]->price);
+                        $matchOdds->setHome($runner->ex->availableToBack[0]->price);
                     } elseif ($id == 1) {
-                        $matchOdds->setAway($runner->ex->availableToBack[$id]->price);
+                        $matchOdds->setAway($runner->ex->availableToBack[0]->price);
                     } else {
-                        $matchOdds->setDraw($runner->ex->availableToBack[$id]->price);
+                        $matchOdds->setDraw($runner->ex->availableToBack[0]->price);
                     }
                 }
                 return $matchOdds;
@@ -239,7 +241,7 @@ class BetfairService
               "marketTypeCodes":["MATCH_ODDS"],
               "marketStartTime":{"from":"' . date('c') . '"}},
               "sort":"FIRST_TO_START",
-              "maxResults":"20",
+              "maxResults":"50",
               "marketProjection":["RUNNER_DESCRIPTION", "EVENT"]}
         ';
 

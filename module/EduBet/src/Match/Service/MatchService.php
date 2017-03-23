@@ -127,12 +127,15 @@ class MatchService
         Team $homeTeam,
         int $timestamp
     ) {
-        return $this->getRepository()->findOneBy(
-            [
-                'homeTeam' => $homeTeam->getId(),
-                'timestamp' => $timestamp
-            ]
-        );
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from("EduBet\Match\Entity\Match", "m")
+            ->where($qb->expr()->eq("m.homeTeam", $homeTeam->getId()))
+            ->andWhere($qb->expr()->gte("m.timestamp", $timestamp - (6 * 3600)))
+            ->andWhere($qb->expr()->lte("m.timestamp", $timestamp + (6 * 3600)));
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
@@ -144,12 +147,15 @@ class MatchService
         Team $awayTeam,
         int $timestamp
     ) {
-        return $this->getRepository()->findOneBy(
-            [
-                'awayTeam' => $awayTeam->getId(),
-                'timestamp' => $timestamp
-            ]
-        );
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from("EduBet\Match\Entity\Match", "m")
+            ->where($qb->expr()->eq("m.awayTeam", $awayTeam->getId()))
+            ->andWhere($qb->expr()->gte("m.timestamp", $timestamp - (6 * 3600)))
+            ->andWhere($qb->expr()->lte("m.timestamp", $timestamp + (6 * 3600)));
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
