@@ -7,3 +7,4 @@ data/who-scored/*
 !data/cache/.gitkeep
 phpunit.xml
 ubuntu-xenial-16.04-cloudimg-console.log
+public/bet.php
