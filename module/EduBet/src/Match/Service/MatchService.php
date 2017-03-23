@@ -75,7 +75,7 @@ class MatchService
         $qb->select("m")
             ->from("EduBet\Match\Entity\Match", "m")
             ->where($qb->expr()->lte("m.timestamp", time() + (100 * 60)))
-            ->orderBy("m.timestamp");
+            ->orderBy("m.timestamp", "desc");
 
         return $qb->getQuery()->getResult();
     }
