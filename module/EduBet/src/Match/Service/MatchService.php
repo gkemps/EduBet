@@ -81,13 +81,14 @@ class MatchService
         DateTime $timestamp,
         int $whoScoredId = null
     ) {
-        /** @var Match $match */
-        $match = $this->getRepository()->findOneBy(
-            [
-                'homeTeam' => $homeTeam->getId(),
-                'timestamp' => $timestamp->getTimestamp()
-            ]
-        );
+        if (!is_null($whoScoredId)) {
+            $match = $this->getWhoScoredMatch($whoScoredId);
+        } else {
+            $match = $this->findMatchByHomeTeam($homeTeam, $timestamp->getTimestamp());
+            if (is_null($match)) {
+                $match = $this->findMatchByAwayTeam($awayTeam, $timestamp->getTimestamp());
+            }
+        }
 
         if (!is_null($match)) {
             throw new MatchAlreadyExistsException("Match already exists: " . $match->toString());

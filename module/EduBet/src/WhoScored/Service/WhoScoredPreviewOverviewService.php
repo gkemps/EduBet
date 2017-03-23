@@ -85,6 +85,17 @@ class WhoScoredPreviewOverviewService
 
                         $whoScoredId = $this->extractMatchWhoScoredId($td);
 
+                        $match = $this->matchService->getWhoScoredMatch($whoScoredId);
+
+                        if (!is_null($match)) {
+                            $match->setTimestamp($dateTime->getTimestamp());
+
+                            $this->matchService->updateMatch($match);
+
+                            $this->log("Updated match: ".$match->toString());
+                            continue;
+                        }
+
                         try {
                             $match = $this->matchService->createNewMatch(
                                 $tournament,
