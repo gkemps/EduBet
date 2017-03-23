@@ -14,6 +14,26 @@ return [
                     ),
                 ),
             ),
+            'fixtures' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/programma',
+                    'defaults' => array(
+                        'controller' => 'EduBet\Controller\IndexController',
+                        'action'     => 'fixtures',
+                    ),
+                ),
+            ),
+            'results' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route'    => '/uitslagen',
+                    'defaults' => array(
+                        'controller' => 'EduBet\Controller\IndexController',
+                        'action'     => 'results',
+                    ),
+                ),
+            ),
         ],
     ],
     'service_manager' => [

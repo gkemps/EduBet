@@ -30,4 +30,20 @@ class IndexController extends AbstractActionController
             ]
         );
     }
+
+    public function fixturesAction()
+    {
+        $matches = $this->matchService->getFixtures();
+
+        return new ViewModel(
+            [
+                'matches' => $matches
+            ]
+        );
+    }
+
+    public function resultsAction()
+    {
+
+    }
 }

@@ -51,6 +51,21 @@ class MatchService
     }
 
     /**
+     * @return array|Match[]
+     */
+    public function getFixtures()
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from("EduBet\Match\Entity\Match", "m")
+            ->where($qb->expr()->gte("m.timestamp", time()))
+            ->orderBy("m.timestamp");
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param Tournament $tournament
      * @param Team $homeTeam
      * @param Team $awayTeam

@@ -42,9 +42,9 @@ class PreviewMatches
                     print " - ";
                     print $whoScoredPreview->getAwayScore();
                     print "\r\n";
-
-                    unlink($fileName);
                 }
+
+                unlink($fileName);
             }
         }
     }
