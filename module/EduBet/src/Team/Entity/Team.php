@@ -31,6 +31,12 @@ class Team
     protected $whoScoredId;
 
     /**
+     * @ORM\OneToMany(targetEntity="EduBet\Team\Entity\TeamAlias", mappedBy="team")
+     * @var TeamAlias[]
+     */
+    protected $aliases;
+
+    /**
      * @return int
      */
     public function getId()

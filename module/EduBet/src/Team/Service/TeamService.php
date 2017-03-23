@@ -40,11 +40,19 @@ class TeamService
      */
     public function findTeam(string $name)
     {
-        return $this->getRepository()->findOneBy(
-            [
-                'name' => $name,
-            ]
-        );
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('t')
+            ->from("EduBet\Team\Entity\Team", "t")
+            ->leftJoin("t.aliases", "a")
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq("t.name", $qb->expr()->literal($name)),
+                    $qb->expr()->eq("a.alias", $qb->expr()->literal($name))
+                )
+            );
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**
