@@ -28,4 +28,13 @@ return array(
         'defaults' => array(),
         'handler' => EduBet\Betfair\Command\BetfairOdds::class,
     ),
+    array(
+        'name' => 'pickforwin',
+        'route' => 'pickforwin',
+        'description' => 'Analyze PickForWin matches',
+        'short_description' => 'Analyze PickForWin matches',
+        'options_descriptions' => array(),
+        'defaults' => array(),
+        'handler' => EduBet\PickForWin\Command\PickForWin::class,
+    ),
 );

@@ -19,6 +19,6 @@ class PickForWin
 
     function __invoke()
     {
-        // TODO: Implement __invoke() method.
+        $this->pickForWinService->processMatches();
     }
 }

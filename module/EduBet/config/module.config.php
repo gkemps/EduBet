@@ -41,6 +41,8 @@ return [
             Betfair\Command\BetfairOdds::class => Betfair\Command\BetfairOddsFactory::class,
             Betfair\Service\BetfairService::class => Betfair\Service\BetfairServiceFactory::class,
             Odds\Service\OddsService::class => Odds\Service\OddsServiceFactory::class,
+            PickForWin\Command\PickForWin::class => PickForWin\Command\PickForWinFactory::class,
+            PickForWin\Service\PickForWinService::class => PickForWin\Service\PickForWinServiceFactory::class,
             Match\Service\MatchService::class => Match\Service\MatchServiceFactory::class,
             Scrapy\Service\ScrapyService::class => Scrapy\Service\ScrapyServiceFactory::class,
             Team\Service\TeamService::class => Team\Service\TeamServiceFactory::class,

@@ -1,21 +1,22 @@
 <?php
 namespace EduBet\PickForWin\Service;
 
-use Zend\Http\Client;
-
 class PickForWinService
 {
-    /** @var  Client */
-    protected $client;
-
     /**
      * PickForWinService constructor.
-     * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->client = $client;
     }
 
+    public function processMatches()
+    {
+        $html = file_get_contents(
+            "http://www.pickforwin.com/en/scientific-sports-predictions.html?sport=football&predictions_date=03/19/2017"
+        );
+
+        file_put_contents("data/preview/pickforwin.html", $html);
+    }
 
 }
