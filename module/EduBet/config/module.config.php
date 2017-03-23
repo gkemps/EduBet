@@ -10,7 +10,7 @@ return [
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'EduBet\Controller\IndexController',
-                        'action'     => 'index',
+                        'action'     => 'fixtures',
                     ),
                 ),
             ),

@@ -7,6 +7,7 @@ use DOMElement;
 use DOMXPath;
 use EduBet\Match\Service\MatchService;
 use EduBet\PickForWin\Entity\PickForWin;
+use EduBet\Result\Entity\Result;
 use EduBet\Team\Service\TeamService;
 use EduBet\Tournament\Service\TournamentService;
 
@@ -40,9 +41,9 @@ class PickForWinService
     public function processMatches()
     {
         $date = new DateTime();
-        $date->setTimestamp(strtotime("3/25/2017"));
+        $date->setTimestamp(strtotime("yesterday"));
 
-        for ($i = 0; $i < 1; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $today = $date->format('m/d/Y');
 
             print "Get PickForWin data for day ".$today."\r\n";
@@ -88,41 +89,85 @@ class PickForWinService
                         $matchInfo = $childNode->childNodes[1]->nodeValue;
                         list($home, $away) = explode(" - ", $matchInfo);
 
-                        $match = null;
-
-                        $homeTeam = $this->teamService->findTeam($home);
-                        if (!is_null($homeTeam)) {
-                            $match = $this->matchService->findMatchByHomeTeam(
-                                $homeTeam,
-                                $date->getTimestamp()
-                            );
-                        }
-
+                        $match = $this->findMatch($home, $away, $date);
                         if (is_null($match)) {
-                            print "(match not found)\r\n";
+                            print "!!! Match not found: {$matchInfo}\r\n";
                             continue;
                         }
 
-                        $pickForWin = $match->getPickForWin() ?? new PickForWin();
-
-                        $pickForWin->setHome($childNode->childNodes[2]->nodeValue);
-                        $pickForWin->setDraw($childNode->childNodes[3]->nodeValue);
-                        $pickForWin->setAway($childNode->childNodes[4]->nodeValue);
-                        if ($childNode->childNodes[9]->childNodes->length > 0) {
-                            /** @var DOMElement $img */
-                            $img = $childNode->childNodes[9]->childNodes[0];
-                            $pickForWin->setPick(filter_var($img->getAttribute('src'), FILTER_SANITIZE_NUMBER_INT));
+                        if (null != $match->getPickForWin() && null != $match->getResult()) {
+                            continue;
                         }
 
-                        $match->setPickForWin($pickForWin);
+                        $resultColumn = 3;
+                        if ($childNode->childNodes[2]->nodeValue != "Scientific football predictions not available") {
+                            $resultColumn = 10;
+                            $pickForWin = $match->getPickForWin() ?? new PickForWin();
+
+                            $pickForWin->setHome($childNode->childNodes[2]->nodeValue);
+                            $pickForWin->setDraw($childNode->childNodes[3]->nodeValue);
+                            $pickForWin->setAway($childNode->childNodes[4]->nodeValue);
+                            if ($childNode->childNodes[9]->childNodes->length > 0) {
+                                /** @var DOMElement $img */
+                                $img = $childNode->childNodes[9]->childNodes[0];
+                                $pickForWin->setPick(filter_var($img->getAttribute('src'), FILTER_SANITIZE_NUMBER_INT));
+                            }
+
+                            $match->setPickForWin($pickForWin);
+                        }
+
+                        //process result
+                        if ($childNode->childNodes[0]->nodeValue == "FT" && $match->getResult() == null) {
+                            $resultInfo = $childNode->childNodes[$resultColumn]->nodeValue;
+                            list($homeScore, $awayScore) = explode("-", $resultInfo);
+
+                            $result = $match->getResult() ?? new Result();
+                            $result->setHomeScore($homeScore);
+                            $result->setAwayScore($awayScore);
+
+                            $match->setResult($result);
+                        }
 
                         $this->matchService->updateMatch($match);
 
-                        print "Found PickForWin stats for ".$match->toString()."\r\n";
+                        print "Updated PickForWin: ".$match->toString()."\r\n";
                     }
                 }
             }
             $date->add(new \DateInterval("P1D"));
         }
+    }
+
+    /**
+     * @param string $home
+     * @param string $away
+     * @param DateTime $timestamp
+     * @return \EduBet\Match\Entity\Match|null
+     */
+    protected function findMatch(
+        string $home,
+        string $away,
+        DateTime $timestamp
+    ) {
+        $homeTeam = $this->teamService->findTeam($home);
+        if (!is_null($homeTeam)) {
+            $match = $this->matchService->findMatchByHomeTeam(
+                $homeTeam,
+                $timestamp->getTimestamp()
+            );
+            if (!is_null($match)) {
+                return $match;
+            }
+        }
+
+        $awayTeam = $this->teamService->findTeam($away);
+        if (!is_null($awayTeam)) {
+            return $this->matchService->findMatchByAwayTeam(
+                $awayTeam,
+                $timestamp->getTimestamp()
+            );
+        }
+
+        return null;
     }
 }

@@ -1,29 +1,45 @@
 <?php
 namespace EduBet\Result\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use EduBet\Match\Entity\Match;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="edubet_result")
+ */
 class Result
 {
     /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     *
      * @var int
      */
     protected $id;
 
     /**
-     * @var Match
-     */
-    protected $match;
-
-    /**
+     * @ORM\Column(type="integer")
+     *
      * @var int
      */
     protected $homeScore;
 
     /**
+     * @ORM\Column(type="integer")
+     *
      * @var int
      */
     protected $awayScore;
+
+    /**
+     * @ORM\OneToOne(targetEntity="EduBet\Match\Entity\Match")
+     * @ORM\JoinColumn(name="edubet_match_id", referencedColumnName="id")
+     *
+     * @var Match
+     **/
+    protected $match;
 
     /**
      * @return int
@@ -31,22 +47,6 @@ class Result
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return Match
-     */
-    public function getMatch()
-    {
-        return $this->match;
-    }
-
-    /**
-     * @param Match $match
-     */
-    public function setMatch($match)
-    {
-        $this->match = $match;
     }
 
     /**
@@ -79,5 +79,26 @@ class Result
     public function setAwayScore($awayScore)
     {
         $this->awayScore = $awayScore;
+    }
+
+    /**
+     * @return Match
+     */
+    public function getMatch()
+    {
+        return $this->match;
+    }
+
+    /**
+     * @param Match $match
+     */
+    public function setMatch($match)
+    {
+        $this->match = $match;
+    }
+
+    public function toString()
+    {
+        return $this->homeScore." - ".$this->awayScore;
     }
 }
