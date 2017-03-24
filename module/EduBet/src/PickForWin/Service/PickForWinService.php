@@ -100,7 +100,7 @@ class PickForWinService
                         }
 
                         $resultColumn = 3;
-                        if ($childNode->childNodes[2]->nodeValue != "Scientific football predictions not available") {
+                        if (false == stristr($childNode->childNodes[2]->nodeValue, "not available")) {
                             $resultColumn = 10;
                             $pickForWin = $match->getPickForWin() ?? new PickForWin();
 
