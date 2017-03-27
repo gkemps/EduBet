@@ -110,7 +110,11 @@ class PickForWinService
                             if ($childNode->childNodes[9]->childNodes->length > 0) {
                                 /** @var DOMElement $img */
                                 $img = $childNode->childNodes[9]->childNodes[0];
-                                $pickForWin->setPick(filter_var($img->getAttribute('src'), FILTER_SANITIZE_NUMBER_INT));
+                                $totoPick = filter_var($img->getAttribute('src'), FILTER_SANITIZE_NUMBER_INT);
+                                if ($totoPick === "") {
+                                    $totoPick = 3;
+                                }
+                                $pickForWin->setPick($totoPick);
                             }
 
                             $match->setPickForWin($pickForWin);
