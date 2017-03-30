@@ -2,6 +2,7 @@
     /** @var \EduBet\Analysis\Entity\PredictionByWeek $predictionByWeek  */
 ?>
 
+<div id="donutChart"></div>
 <div id="predictionByWeek"></div>
 
 <script type="text/javascript">
@@ -14,7 +15,7 @@
             <?php foreach ($predictionByWeek->getWeeks() as $week): ?>
                 <?php echo "['".$week."'"; ?>
                 <?php foreach ($predictionByWeek->getSources() as $source): ?>
-                    <?php echo ", ".$predictionByWeek->getPrediction($source, $week); ?>
+                    <?php echo ", ".($predictionByWeek->getPrediction($source, $week) / 100); ?>
                 <?php endforeach; ?>
                 <?php echo "],"; ?>
             <?php endforeach; ?>
@@ -22,12 +23,28 @@
 
         var options = {
             title: 'Succes per week',
-            curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'bottom' },
+            vAxis: {format: 'percent'}
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('predictionByWeek'));
 
         chart.draw(data, options);
+
+        var donutData = google.visualization.arrayToDataTable([
+            ['Success', 'Procent'],
+            ['Yes',     68],
+            ['No',      32],
+        ]);
+
+        var donutOptions = {
+            title: 'Betfair',
+            pieHole: 0.8,
+            colors:['Blue','#ffffff'],
+            legend: 'none'
+        };
+
+        var donutChart = new google.visualization.PieChart(document.getElementById('donutChart'));
+        //donutChart.draw(donutData, donutOptions);
     }
 </script>

@@ -31,7 +31,7 @@ use EduBet\Match\Entity\Match;
     </thead>
     <tbody>
     <?php foreach ($matches as $match): ?>
-        <tr>
+        <tr class="<?php echo $this->fixtureRowClass($match); ?>">
             <th scope="row">
                 <?php //echo "(".$match->getId().")"; ?>
                 <?php echo strftime("%a %e %b %R", $match->getTimestamp()); ?>

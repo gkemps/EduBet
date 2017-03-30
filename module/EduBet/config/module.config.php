@@ -113,10 +113,11 @@ return [
     ],
     'view_helpers' => array(
         'invokables' => array(
-            'whoScoredClass' => 'EduBet\View\Helper\WhoScoredClass',
+            'fixtureRowClass' => 'EduBet\View\Helper\FixtureRowClass',
             'oddsClass' => 'EduBet\View\Helper\OddsClass',
             'pickForWinClass' => 'EduBet\View\Helper\PickForWinClass',
             'pickForWinPicksClass' => 'EduBet\View\Helper\PickForWinPicksClass',
+            'whoScoredClass' => 'EduBet\View\Helper\WhoScoredClass',
         ),
     ),
 ];
