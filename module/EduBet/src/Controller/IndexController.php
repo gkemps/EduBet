@@ -51,7 +51,7 @@ class IndexController extends AbstractActionController
 
     public function resultsAction()
     {
-        $matches = $this->matchService->getResults();
+        $matches = $this->matchService->getResults(strtotime("1 week ago"));
 
         return new ViewModel(
             [

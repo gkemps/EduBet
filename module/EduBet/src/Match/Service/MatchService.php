@@ -66,16 +66,22 @@ class MatchService
     }
 
     /**
-     * @return array|Match[]
+     * @param int $start
+     * @return array|\EduBet\Match\Entity\Match[]
      */
-    public function getResults()
-    {
+    public function getResults(
+        int $start = null
+    ) {
         $qb = $this->em->createQueryBuilder();
 
         $qb->select("m")
             ->from("EduBet\Match\Entity\Match", "m")
             ->where($qb->expr()->lte("m.timestamp", time() + (100 * 60)))
             ->orderBy("m.timestamp", "desc");
+
+        if (!is_null($start)) {
+            $qb->andWhere($qb->expr()->gte("m.timestamp", $start));
+        }
 
         return $qb->getQuery()->getResult();
     }
