@@ -85,6 +85,9 @@ class PickForWinService
                         if (!$processMatches) {
                             continue;
                         }
+                        if ($childNode->childNodes[0]->nodeValue == "POSTP") {
+                            continue;
+                        }
 
                         $matchInfo = $childNode->childNodes[1]->nodeValue;
                         list($home, $away) = explode(" - ", $matchInfo);
