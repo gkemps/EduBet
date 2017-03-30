@@ -127,4 +127,19 @@ class Odds
     {
         return $this->getHome()." / ".$this->getDraw()." / ".$this->getAway();
     }
+
+    /**
+     * @return int
+     */
+    public function getToto()
+    {
+        $lowestValue = min($this->home, $this->away, $this->draw);
+        if ($this->home == $lowestValue) {
+            return 1;
+        } elseif ($this->away == $lowestValue) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
 }

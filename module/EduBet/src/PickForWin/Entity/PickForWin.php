@@ -142,4 +142,19 @@ class PickForWin
     {
         $this->match = $match;
     }
+
+    /**
+     * @return int
+     */
+    public function getToto()
+    {
+        $maxValue = max($this->home, $this->away, $this->draw);
+        if ($maxValue == $this->home) {
+            return 1;
+        } elseif ($maxValue == $this->away) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
 }

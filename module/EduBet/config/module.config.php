@@ -10,7 +10,7 @@ return [
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'EduBet\Controller\IndexController',
-                        'action'     => 'fixtures',
+                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -38,6 +38,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
+            Analysis\Service\PredictionByWeekService::class => Analysis\Service\PredictionByWeekServiceFactory::class,
             Betfair\Command\BetfairOdds::class => Betfair\Command\BetfairOddsFactory::class,
             Betfair\Service\BetfairService::class => Betfair\Service\BetfairServiceFactory::class,
             Odds\Service\OddsService::class => Odds\Service\OddsServiceFactory::class,

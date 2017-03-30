@@ -104,4 +104,22 @@ class WhoScoredPreview
     {
         return $this->homeScore." - ".$this->awayScore;
     }
+
+    /**
+     * @return int|null
+     */
+    public function getToto()
+    {
+        if (is_null($this->homeScore)) {
+            return null;
+        }
+
+        if ($this->homeScore > $this->awayScore) {
+            return 1;
+        } elseif ($this->awayScore > $this->homeScore) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
 }
