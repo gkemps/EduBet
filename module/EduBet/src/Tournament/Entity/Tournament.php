@@ -43,6 +43,12 @@ class Tournament
     protected $pickForWinId;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $countryCode;
+
+    /**
      * @return int
      */
     public function getId()
@@ -112,5 +118,21 @@ class Tournament
     public function setPickForWinId($pickForWinId)
     {
         $this->pickForWinId = $pickForWinId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
+    /**
+     * @param string $countryCode
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->countryCode = $countryCode;
     }
 }

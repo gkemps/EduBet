@@ -114,6 +114,7 @@ return [
     'view_helpers' => array(
         'invokables' => array(
             'fixtureRowClass' => 'EduBet\View\Helper\FixtureRowClass',
+            'flagClass' => 'EduBet\View\Helper\FlagClass',
             'oddsClass' => 'EduBet\View\Helper\OddsClass',
             'pickForWinClass' => 'EduBet\View\Helper\PickForWinClass',
             'pickForWinPicksClass' => 'EduBet\View\Helper\PickForWinPicksClass',
