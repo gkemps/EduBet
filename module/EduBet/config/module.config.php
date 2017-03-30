@@ -111,4 +111,12 @@ return [
             __DIR__ . '/../view',
         ],
     ],
+    'view_helpers' => array(
+        'invokables' => array(
+            'whoScoredClass' => 'EduBet\View\Helper\WhoScoredClass',
+            'oddsClass' => 'EduBet\View\Helper\OddsClass',
+            'pickForWinClass' => 'EduBet\View\Helper\PickForWinClass',
+            'pickForWinPicksClass' => 'EduBet\View\Helper\PickForWinPicksClass',
+        ),
+    ),
 ];

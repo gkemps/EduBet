@@ -47,56 +47,56 @@ use EduBet\Match\Entity\Match;
             <td>
                 <?php echo $match->getTournament()->getName(); ?>
             </td>
-            <td>
+            <td class="<?php echo $this->whoScoredClass($match); ?>">
                 <?php
                 if (null != $match->getWhoScoredPreview()) {
                     echo $match->getWhoScoredPreview()->toString();
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->oddsClass($match, 1); ?>">
                 <?php
                 if (null != $match->getOdds()) {
                     echo $match->getOdds()->getHome();
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->oddsClass($match, 3); ?>">
                 <?php
                 if (null != $match->getOdds()) {
                     echo $match->getOdds()->getDraw();
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->oddsClass($match, 2); ?>">
                 <?php
                 if (null != $match->getOdds()) {
                     echo $match->getOdds()->getAway();
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->pickForWinClass($match, 1); ?>">
                 <?php
                 if (null != $match->getPickForWin()) {
                     echo $match->getPickForWin()->getHome()."%";
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->pickForWinClass($match, 3); ?>">
                 <?php
                 if (null != $match->getPickForWin()) {
                     echo $match->getPickForWin()->getDraw()."%";
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->pickForWinClass($match, 2); ?>">
                 <?php
                 if (null != $match->getPickForWin()) {
                     echo $match->getPickForWin()->getAway()."%";
                 }
                 ?>
             </td>
-            <td>
+            <td class="<?php echo $this->pickForWinPicksClass($match, 2); ?>">
                 <?php
                 if (null != $match->getPickForWin()) {
                     echo $match->getPickForWin()->getPick();
