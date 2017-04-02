@@ -128,11 +128,13 @@ class PickForWinService
                             $resultInfo = $childNode->childNodes[$resultColumn]->nodeValue;
                             list($homeScore, $awayScore) = explode("-", $resultInfo);
 
-                            $result = $match->getResult() ?? new Result();
-                            $result->setHomeScore($homeScore);
-                            $result->setAwayScore($awayScore);
+                            if (isset($homeScore) && isset($awayScore)) {
+                                $result = $match->getResult() ?? new Result();
+                                $result->setHomeScore($homeScore);
+                                $result->setAwayScore($awayScore);
 
-                            $match->setResult($result);
+                                $match->setResult($result);
+                            }
                         }
 
                         $this->matchService->updateMatch($match);
