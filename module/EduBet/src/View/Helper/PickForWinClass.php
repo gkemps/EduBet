@@ -8,7 +8,7 @@ class PickForWinClass extends AbstractHelper
 {
     function __invoke(Match $match, int $toto)
     {
-        if (is_null($match->getPickForWin())) {
+        if (is_null($match->getPickForWin()) || is_null($match->getResult())) {
             return null;
         }
 

@@ -8,7 +8,7 @@ class OddsClass extends AbstractHelper
 {
     function __invoke(Match $match, int $toto)
     {
-        if (is_null($match->getOdds())) {
+        if (is_null($match->getOdds()) || is_null($match->getResult())) {
             return null;
         }
 

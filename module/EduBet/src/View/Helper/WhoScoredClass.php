@@ -8,7 +8,7 @@ class WhoScoredClass extends AbstractHelper
 {
     function __invoke(Match $match)
     {
-        if (is_null($match->getWhoScoredPreview())) {
+        if (is_null($match->getWhoScoredPreview()) || is_null($match->getResult())) {
             return null;
         }
 
