@@ -16,10 +16,13 @@
             ->prependStylesheet($this->basePath('css/bootstrap-theme.min.css'))
             ->prependStylesheet($this->basePath('css/bootstrap.min.css'))
             ->prependStylesheet("https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/2.8.0/css/flag-icon.min.css")
+            ->prependStylesheet("https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css")
         ?>
 
         <!-- Scripts -->
         <?= $this->headScript()
+            ->prependFile("https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js")
+            ->prependFile("https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js")
             ->prependFile("https://www.gstatic.com/charts/loader.js")
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))

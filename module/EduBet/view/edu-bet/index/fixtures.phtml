@@ -3,7 +3,7 @@
 use EduBet\Match\Entity\Match;
 
 ?>
-<table class="table table-striped">
+<table id="fixtures-table" class="table table-striped">
     <thead>
     <tr>
         <th>Tijdstip</th>
@@ -114,3 +114,12 @@ use EduBet\Match\Entity\Match;
     <?php endforeach; ?>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#fixtures-table').DataTable(
+            {
+                paging: false
+            }
+        );
+    });
+</script>

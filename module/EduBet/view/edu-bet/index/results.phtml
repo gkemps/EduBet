@@ -3,7 +3,7 @@
 use EduBet\Match\Entity\Match;
 
 ?>
-<table class="table table-striped">
+<table id="results-table" class="table table-striped">
     <thead>
     <tr>
         <th>Tijdstip</th>
@@ -124,3 +124,12 @@ use EduBet\Match\Entity\Match;
     <?php endforeach; ?>
     </tbody>
 </table>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#results-table').DataTable(
+            {
+                paging: false
+            }
+        );
+    });
+</script>
