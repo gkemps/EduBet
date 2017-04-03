@@ -284,6 +284,28 @@ class Match
     }
 
     /**
+     * @return float|int|null
+     */
+    public function getExpectedProfit()
+    {
+        if (is_null($this->result) || is_null($this->odds)) {
+            return null;
+        }
+
+        if ($this->getOdds()->getToto() == $this->getResult()->getToto()) {
+            if ($this->getResult()->getToto() == 1) {
+                return $this->getOdds()->getHome() - 1;
+            } elseif ($this->getResult()->getToto() == 2) {
+                return $this->getOdds()->getAway() - 1;
+            } else {
+                return $this->getOdds()->getDraw() - 1;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * @return string
      */
     public function toString()

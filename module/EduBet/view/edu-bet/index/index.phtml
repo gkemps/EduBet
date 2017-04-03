@@ -1,8 +1,11 @@
 <?php
-    /** @var \EduBet\Analysis\Entity\PredictionByWeek $predictionByWeek  */
-?>
+use EduBet\Analysis\Entity\PredictionByWeek;
+use EduBet\Analysis\Entity\ProfitByWeek;
 
-<div id="donutChart"></div>
+/** @var PredictionByWeek $predictionByWeek  */
+/** @var ProfitByWeek $profitByWeek */
+?>
+<div id="profitByWeek"></div>
 <div id="predictionByWeek"></div>
 
 <script type="text/javascript">
@@ -24,27 +27,40 @@
         var options = {
             title: 'Succes per week',
             legend: { position: 'bottom' },
-            vAxis: {format: 'percent'}
+            vAxis: {format: 'percent'},
+            height: 400
         };
 
         var chart = new google.visualization.LineChart(document.getElementById('predictionByWeek'));
 
         chart.draw(data, options);
 
-        var donutData = google.visualization.arrayToDataTable([
-            ['Success', 'Procent'],
-            ['Yes',     68],
-            ['No',      32],
+        var profitData = google.visualization.arrayToDataTable([
+            ['Year', <?php echo "'".implode("', '", $profitByWeek->getSources())."'"; ?>],
+            <?php foreach ($profitByWeek->getWeeks() as $week): ?>
+                <?php echo "['".$week."'"; ?>
+                    <?php foreach ($profitByWeek->getSources() as $source): ?>
+                        <?php
+                            $value = $profitByWeek->getProfit($source, $week);
+                            if (is_null($value)) {
+                                $value = "null";
+                            }
+                            echo ", ".$value;
+                        ?>
+                    <?php endforeach; ?>
+                <?php echo "],"; ?>
+            <?php endforeach; ?>
         ]);
 
-        var donutOptions = {
-            title: 'Betfair',
-            pieHole: 0.8,
-            colors:['Blue','#ffffff'],
-            legend: 'none'
+        var profitOptions = {
+            title: 'Winst per week',
+            legend: { position: 'bottom' },
+            vAxis: {format: '\u20AC #'},
+            height: 400
         };
 
-        var donutChart = new google.visualization.PieChart(document.getElementById('donutChart'));
-        //donutChart.draw(donutData, donutOptions);
+        var profitChart = new google.visualization.LineChart(document.getElementById('profitByWeek'));
+
+        profitChart.draw(profitData, profitOptions);
     }
 </script>

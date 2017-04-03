@@ -30,10 +30,12 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $predictionByWeek = $this->predictionByWeekService->getPredictionsByWeek();
+        $profitByWeek = $this->predictionByWeekService->getProfitByWeek();
 
         return new ViewModel(
             [
-                'predictionByWeek' => $predictionByWeek
+                'predictionByWeek' => $predictionByWeek,
+                'profitByWeek' => $profitByWeek
             ]
         );
     }

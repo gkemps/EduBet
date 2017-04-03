@@ -2,7 +2,9 @@
 namespace EduBet\Analysis\Service;
 
 use EduBet\Analysis\Entity\PredictionByWeek;
+use EduBet\Analysis\Entity\ProfitByWeek;
 use EduBet\Analysis\Strategy\StrategyInterface;
+use EduBet\Match\Entity\Match;
 use EduBet\Match\Service\MatchService;
 
 class PredictionByWeekService
@@ -12,6 +14,9 @@ class PredictionByWeekService
 
     /** @var MatchService  */
     protected $matchService;
+
+    /** @var Match[]  */
+    protected $matches;
 
     /**
      * PredictionByWeekService constructor.
@@ -24,6 +29,8 @@ class PredictionByWeekService
     ) {
         $this->strategies = $strategies;
         $this->matchService = $matchService;
+
+        $this->matches = $matchService->getResults();
     }
 
     /**
@@ -31,13 +38,24 @@ class PredictionByWeekService
      */
     public function getPredictionsByWeek()
     {
-        $matches = $this->matchService->getResults();
-
         $predictionByWeek = new PredictionByWeek();
         foreach ($this->strategies as $strategy) {
-            $predictionByWeek  = $strategy->predictionByWeek($matches, $predictionByWeek);
+            $predictionByWeek  = $strategy->predictionByWeek($this->matches, $predictionByWeek);
         }
 
         return $predictionByWeek;
+    }
+
+    /**
+     * @return ProfitByWeek
+     */
+    public function getProfitByWeek()
+    {
+        $profitByWeek = new ProfitByWeek();
+        foreach ($this->strategies as $strategy) {
+            $profitByWeek  = $strategy->profitByWeek($this->matches, $profitByWeek);
+        }
+
+        return $profitByWeek;
     }
 }

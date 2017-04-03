@@ -2,9 +2,12 @@
 namespace EduBet\Analysis\Service;
 
 use EduBet\Analysis\Strategy\BetfairStrategy;
+use EduBet\Analysis\Strategy\HighStakesStrategy;
 use EduBet\Analysis\Strategy\HomeWinStrategy;
+use EduBet\Analysis\Strategy\LowStakesStrategy;
 use EduBet\Analysis\Strategy\PickForWinPicksStrategy;
 use EduBet\Analysis\Strategy\PickForWinStrategy;
+use EduBet\Analysis\Strategy\UnanimousStrategy;
 use EduBet\Analysis\Strategy\WhoScoredStrategy;
 use EduBet\Match\Service\MatchService;
 use Interop\Container\ContainerInterface;
@@ -22,7 +25,10 @@ class PredictionByWeekServiceFactory implements FactoryInterface
                 new BetfairStrategy(),
                 new PickForWinStrategy(),
                 new PickForWinPicksStrategy(),
-                new HomeWinStrategy()
+                new HomeWinStrategy(),
+                new UnanimousStrategy(),
+                new HighStakesStrategy(),
+                new LowStakesStrategy()
             ],
             $matchService
         );

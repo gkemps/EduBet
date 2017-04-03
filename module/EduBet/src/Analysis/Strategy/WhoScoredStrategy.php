@@ -1,37 +1,31 @@
 <?php
 namespace EduBet\Analysis\Strategy;
 
-use EduBet\Analysis\Entity\PredictionByWeek;
 use EduBet\Match\Entity\Match;
 
-class WhoScoredStrategy implements StrategyInterface
+class WhoScoredStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "WhoScored";
 
     /**
-     * @param Match[] $matches
-     * @param PredictionByWeek $predictionByWeek
-     * @return PredictionByWeek
+     * @param Match $match
+     * @return bool
      */
-    public function predictionByWeek(
-        array $matches,
-        PredictionByWeek $predictionByWeek
-    ) : PredictionByWeek {
-        foreach ($matches as $match) {
-            if (null == $match->getResult() || null == $match->getWhoScoredPreview()) {
-                continue;
-            }
+    public function applies(Match $match) : bool
+    {
+        return !is_null($match->getWhoScoredPreview());
+    }
 
-            $weekNumber = $match->getDateTime()->format('W');
-
-            $correct = $match->getResult()->getToto() == $match->getWhoScoredPreview()->getToto();
-            if ($correct) {
-                $predictionByWeek->addCorrectMatch(self::SOURCE, $weekNumber);
-            } else {
-                $predictionByWeek->addIncorrectMatch(self::SOURCE, $weekNumber);
-            }
+    /**
+     * @param Match $match
+     * @return bool|null
+     */
+    public function successful(Match $match)
+    {
+        if (!$this->applies($match) || is_null($match->getResult())) {
+            return null;
         }
 
-        return $predictionByWeek;
+        return $match->getResult()->getToto() == $match->getWhoScoredPreview()->getToto();
     }
 }

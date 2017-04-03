@@ -122,4 +122,12 @@ class WhoScoredPreview
             return 3;
         }
     }
+
+    /**
+     * @return number
+     */
+    public function getGoalDifference()
+    {
+        return abs($this->homeScore - $this->awayScore);
+    }
 }

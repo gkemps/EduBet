@@ -2,36 +2,28 @@
 namespace EduBet\Analysis\Strategy;
 
 use EduBet\Analysis\Entity\PredictionByWeek;
+use EduBet\Analysis\Entity\ProfitByWeek;
 use EduBet\Match\Entity\Match;
 
-class HomeWinStrategy implements StrategyInterface
+class HomeWinStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "HomeWin";
 
+    public function applies(Match $match) : bool
+    {
+        return true;
+    }
+
     /**
-     * @param Match[] $matches
-     * @param PredictionByWeek $predictionByWeek
-     * @return PredictionByWeek
+     * @param Match $match
+     * @return bool|null
      */
-    public function predictionByWeek(
-        array $matches,
-        PredictionByWeek $predictionByWeek
-    ) : PredictionByWeek {
-        foreach ($matches as $match) {
-            if (null == $match->getResult()) {
-                continue;
-            }
-
-            $weekNumber = $match->getDateTime()->format('W');
-
-            $correct = $match->getResult()->getToto() == 1;
-            if ($correct) {
-                $predictionByWeek->addCorrectMatch(self::SOURCE, $weekNumber);
-            } else {
-                $predictionByWeek->addIncorrectMatch(self::SOURCE, $weekNumber);
-            }
+    public function successful(Match $match)
+    {
+        if (null == $match->getResult()) {
+            return null;
         }
 
-        return $predictionByWeek;
+        return $match->getResult()->getToto() == 1;
     }
 }

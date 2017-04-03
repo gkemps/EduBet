@@ -133,7 +133,7 @@ class Odds
      */
     public function getToto()
     {
-        $lowestValue = min($this->home, $this->away, $this->draw);
+        $lowestValue = $this->getLowestOdds();
         if ($this->home == $lowestValue) {
             return 1;
         } elseif ($this->away == $lowestValue) {
@@ -141,5 +141,36 @@ class Odds
         } else {
             return 3;
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getInverseToto()
+    {
+        $highestValue = $this->getHighestOdds();
+        if ($this->home == $highestValue) {
+            return 1;
+        } elseif ($this->away == $highestValue) {
+            return 2;
+        } else {
+            return 3;
+        }
+    }
+
+    /**
+     * @return float
+     */
+    public function getLowestOdds()
+    {
+        return min($this->home, $this->away, $this->draw);
+    }
+
+    /**
+     * @return float
+     */
+    public function getHighestOdds()
+    {
+        return max($this->home, $this->away, $this->draw);
     }
 }
