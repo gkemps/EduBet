@@ -6,6 +6,7 @@ use EduBet\Match\Entity\Match;
 class LowStakesStrategy extends DefaultStrategy
 {
     const SOURCE = "LowStakes";
+    const LABEL = "LS";
 
     /**
      * @param Match $match

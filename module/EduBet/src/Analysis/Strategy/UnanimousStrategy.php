@@ -6,6 +6,7 @@ use EduBet\Match\Entity\Match;
 class UnanimousStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "Unanimous";
+    const LABEL = "UN";
 
     /**
      * @param Match $match

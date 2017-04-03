@@ -6,6 +6,7 @@ use EduBet\Match\Entity\Match;
 class PickForWinStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "PickForWin";
+    const LABEL = "P4W";
 
     /**
      * @param Match $match

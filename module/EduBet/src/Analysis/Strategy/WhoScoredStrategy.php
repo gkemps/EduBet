@@ -6,6 +6,7 @@ use EduBet\Match\Entity\Match;
 class WhoScoredStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "WhoScored";
+    const LABEL = "WS";
 
     /**
      * @param Match $match

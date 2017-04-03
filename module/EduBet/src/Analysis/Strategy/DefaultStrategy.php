@@ -8,6 +8,15 @@ use EduBet\Match\Entity\Match;
 abstract class DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "Default";
+    const LABEL = "Default";
+
+    /**
+     * @return string
+     */
+    public function getLabel() : string
+    {
+        return static::LABEL;
+    }
 
     /**
      * @param Match[] $matches

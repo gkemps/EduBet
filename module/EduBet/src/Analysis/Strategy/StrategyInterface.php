@@ -11,6 +11,8 @@ interface StrategyInterface
 
     public function successful(Match $match);
 
+    public function getLabel() : string;
+
     public function predictionByWeek(
         array $matches,
         PredictionByWeek $predictionByWeek

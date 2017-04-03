@@ -8,6 +8,7 @@ use EduBet\Match\Entity\Match;
 class HomeWinStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "HomeWin";
+    const LABEL = "HW";
 
     public function applies(Match $match) : bool
     {

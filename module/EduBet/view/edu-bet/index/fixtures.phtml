@@ -11,6 +11,7 @@ use EduBet\Match\Entity\Match;
         <th>Thuis</th>
         <th>Uit</th>
         <th>Competitie</th>
+        <th>Strategy</th>
         <th>WhoScored</th>
         <th colspan="3">Betfair Odds</th>
         <th colspan="4">PickForWin</th>
@@ -22,6 +23,7 @@ use EduBet\Match\Entity\Match;
         <th></th>
         <th></th>
         <th></th>
+        <td></td>
         <th>1</th>
         <th>X</th>
         <th>2</th>
@@ -48,6 +50,9 @@ use EduBet\Match\Entity\Match;
             </td>
             <td>
                 <?php echo $match->getTournament()->getName(); ?>
+            </td>
+            <td>
+                <?php echo $this->strategyLabels($match); ?>
             </td>
             <td>
                 <?php

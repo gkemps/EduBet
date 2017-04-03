@@ -6,6 +6,7 @@ use EduBet\Match\Entity\Match;
 class HighStakesStrategy extends UnanimousStrategy
 {
     const SOURCE = "HighStakes";
+    const LABEL = "HS";
 
     public function applies(Match $match) : bool
     {

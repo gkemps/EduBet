@@ -6,6 +6,7 @@ use EduBet\Match\Entity\Match;
 class BetfairStrategy extends DefaultStrategy implements StrategyInterface
 {
     const SOURCE = "Betfair";
+    const LABEL = "BF";
 
     /**
      * @param Match $match
