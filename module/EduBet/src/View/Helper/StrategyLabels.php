@@ -29,7 +29,7 @@ class StrategyLabels extends AbstractHelper
             }
 
             if ($strategy->applies($match)) {
-                $labels .= "<span class=\"label {$label}\">".$strategy->getLabel()."</span>&nbsp;";
+                $labels .= "<span title=\"".$strategy->getName()."\" class=\"label {$label}\">".$strategy->getLabel()."</span>&nbsp;";
             }
         }
 

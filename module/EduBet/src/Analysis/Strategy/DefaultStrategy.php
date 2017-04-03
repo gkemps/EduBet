@@ -19,6 +19,14 @@ abstract class DefaultStrategy implements StrategyInterface
     }
 
     /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return static::SOURCE;
+    }
+
+    /**
      * @param Match[] $matches
      * @param PredictionByWeek $predictionByWeek
      * @return PredictionByWeek

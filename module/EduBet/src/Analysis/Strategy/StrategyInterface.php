@@ -13,6 +13,8 @@ interface StrategyInterface
 
     public function getLabel() : string;
 
+    public function getName() : string;
+
     public function predictionByWeek(
         array $matches,
         PredictionByWeek $predictionByWeek
