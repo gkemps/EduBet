@@ -6,8 +6,8 @@ use EduBet\Match\Entity\Match;
 <table id="results-table" class="table table-striped">
     <thead>
     <tr>
-        <th>Tijdstip</th>
-        <td></td>
+        <th colspan="2">Tijdstip</th>
+        <th></th>
         <th>Thuis</th>
         <th>Uit</th>
         <th>Competitie</th>
@@ -18,6 +18,7 @@ use EduBet\Match\Entity\Match;
         <th>Uitslag</th>
     </tr>
     <tr>
+        <th>Tijd</th>
         <th></th>
         <th></th>
         <th></th>
@@ -39,8 +40,10 @@ use EduBet\Match\Entity\Match;
     <?php foreach ($matches as $match): ?>
         <tr>
             <th scope="row">
-                <?php //echo "(".$match->getId().")"; ?>
-                <?php echo strftime("%e %b %R (%a)", $match->getTimestamp()); ?>
+                <?php echo strftime("%Y-%m-%d %H:%M", $match->getTimestamp()); ?>
+            </th>
+            <th scope="row">
+                <?php echo strftime("%a", $match->getTimestamp()); ?>
             </th>
             <td>
                 <span class="<?php echo $this->flagClass($match); ?>"></span>
