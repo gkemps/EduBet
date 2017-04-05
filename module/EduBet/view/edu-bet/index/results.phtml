@@ -40,7 +40,7 @@ use EduBet\Match\Entity\Match;
         <tr>
             <th scope="row">
                 <?php //echo "(".$match->getId().")"; ?>
-                <?php echo strftime("%a %e %b %R", $match->getTimestamp()); ?>
+                <?php echo strftime("%e %b %R (%a)", $match->getTimestamp()); ?>
             </th>
             <td>
                 <span class="<?php echo $this->flagClass($match); ?>"></span>
