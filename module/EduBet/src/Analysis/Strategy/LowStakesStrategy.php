@@ -1,6 +1,7 @@
 <?php
 namespace EduBet\Analysis\Strategy;
 
+use EduBet\Analysis\Entity\ProfitByWeek;
 use EduBet\Match\Entity\Match;
 
 class LowStakesStrategy extends DefaultStrategy
@@ -35,5 +36,38 @@ class LowStakesStrategy extends DefaultStrategy
         }
 
         return $match->getResult()->getToto() == $match->getOdds()->getInverseToto();
+    }
+
+    /**
+     * @param array|Match[] $matches
+     * @param ProfitByWeek $profitByWeek
+     * @return ProfitByWeek
+     */
+    public function profitByWeek(
+        array $matches,
+        ProfitByWeek $profitByWeek
+    ) : ProfitByWeek
+    {
+        foreach ($matches as $match) {
+            $successFul = $this->successful($match);
+            if (is_null($successFul) || is_null($match->getOdds())) {
+                continue;
+            }
+
+            $weekNumber = $match->getDateTime()->format('W');
+            if ($successFul) {
+                $profitByWeek->addCorrectMatch(
+                    static::SOURCE,
+                    $weekNumber,
+                    $match->getTotoProfit(
+                        $match->getOdds()->getInverseToto()
+                    )
+                );
+            } else {
+                $profitByWeek->addIncorrectMatch(static::SOURCE, $weekNumber);
+            }
+        }
+
+        return $profitByWeek;
     }
 }
