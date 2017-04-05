@@ -104,7 +104,8 @@ class WhoScoredPreviewOverviewService
                                 $dateTime,
                                 $whoScoredId
                             );
-                            $this->scrapyService->createScrapy($match);
+                            $matchUrl = $this->extractMatchUrl($td);
+                            $this->scrapyService->createScrapy($match, $matchUrl);
                         } catch (MatchAlreadyExistsException $e) {
                             $this->log($e->getMessage());
                         }
@@ -129,6 +130,24 @@ class WhoScoredPreviewOverviewService
                     $whoScoredId = (int) $href[2];
 
                     return $whoScoredId;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param DOMElement $td
+     * @return null|string
+     */
+    protected function extractMatchUrl(DOMElement $td)
+    {
+        if ($td->hasChildNodes() && $td->childNodes->length == 3) {
+            /** @var DOMElement $node */
+            foreach ($td->childNodes as $node) {
+                if ($node instanceof DOMElement && $node->tagName == "a" && false != stripos($node->getAttribute('href'), "preview")) {
+                    return $node->getAttribute('href');
                 }
             }
         }

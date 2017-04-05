@@ -25,6 +25,12 @@ class Scrapy
     protected $matchId;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $url;
+
+    /**
      * @return int
      */
     public function getId()
@@ -46,5 +52,21 @@ class Scrapy
     public function setMatchId($matchId)
     {
         $this->matchId = $matchId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
     }
 }
