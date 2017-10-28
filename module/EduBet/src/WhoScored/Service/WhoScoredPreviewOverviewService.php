@@ -11,6 +11,7 @@ use EduBet\Scrapy\Service\ScrapyService;
 use EduBet\Team\Service\TeamService;
 use EduBet\Tournament\Entity\Tournament;
 use EduBet\Tournament\Service\TournamentService;
+use Psr\Log\LoggerInterface;
 
 class WhoScoredPreviewOverviewService
 {
@@ -26,6 +27,9 @@ class WhoScoredPreviewOverviewService
     /** @var ScrapyService  */
     protected $scrapyService;
 
+    /** @var  LoggerInterface */
+    protected $logger;
+
     /**
      * WhoScoredPreviewOverviewService constructor.
      * @param TeamService $teamService
@@ -37,12 +41,14 @@ class WhoScoredPreviewOverviewService
         TeamService $teamService,
         TournamentService $tournamentService,
         MatchService $matchService,
-        ScrapyService $scrapyService
+        ScrapyService $scrapyService,
+        LoggerInterface $logger
     ) {
         $this->teamService = $teamService;
         $this->tournamentService = $tournamentService;
         $this->matchService = $matchService;
         $this->scrapyService = $scrapyService;
+        $this->logger = $logger;
     }
 
     public function extractPreviewMatches(string $html)
@@ -92,7 +98,9 @@ class WhoScoredPreviewOverviewService
 
                             $this->matchService->updateMatch($match);
 
-                            $this->log("Updated match: ".$match->toString());
+                            $this->logger->info(
+                                "Match ({$match->getId()}) updated: ".$match->toString()
+                            );
                             continue;
                         }
 
@@ -104,10 +112,13 @@ class WhoScoredPreviewOverviewService
                                 $dateTime,
                                 $whoScoredId
                             );
+                            $this->logger->info(
+                                "Match created: ".$match->toString()
+                            );
                             $matchUrl = $this->extractMatchUrl($td);
                             $this->scrapyService->createScrapy($match, $matchUrl);
                         } catch (MatchAlreadyExistsException $e) {
-                            $this->log($e->getMessage());
+                            $this->logger->error($e->getMessage());
                         }
                     }
                 }
@@ -125,7 +136,6 @@ class WhoScoredPreviewOverviewService
             /** @var DOMElement $node */
             foreach ($td->childNodes as $node) {
                 if ($node instanceof DOMElement && $node->tagName == "a" && false != stripos($node->getAttribute('href'), "preview")) {
-                    $name = trim($node->nodeValue);
                     $href = explode("/", $node->getAttribute('href'));
                     $whoScoredId = (int) $href[2];
 
@@ -175,13 +185,5 @@ class WhoScoredPreviewOverviewService
         }
 
         return null;
-    }
-
-    /**
-     * @param string $message
-     */
-    protected function log(string $message)
-    {
-        print $message . "\r\n";
     }
 }

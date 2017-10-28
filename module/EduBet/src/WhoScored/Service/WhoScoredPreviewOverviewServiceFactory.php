@@ -1,6 +1,7 @@
 <?php
 namespace EduBet\WhoScored\Service;
 
+use EduBet\Monolog\Logger;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -20,11 +21,15 @@ class WhoScoredPreviewOverviewServiceFactory implements FactoryInterface
         /** @var \EduBet\Scrapy\Service\ScrapyService $scrapyService */
         $scrapyService = $container->get("EduBet\Scrapy\Service\ScrapyService");
 
+        /** @var Logger $logger */
+        $logger = $container->get(Logger::class);
+
         return new WhoScoredPreviewOverviewService(
             $teamService,
             $tournamentService,
             $matchService,
-            $scrapyService
+            $scrapyService,
+            $logger
         );
     }
 }

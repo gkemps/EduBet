@@ -99,6 +99,38 @@ class Match
     protected $result;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $homeTeamForm;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $awayTeamForm;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $homeTeamHomeForm;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $awayTeamAwayForm;
+
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @var int
+     */
+    protected $tablePosition;
+
+    /**
      * @return int
      */
     public function getId()
@@ -284,6 +316,86 @@ class Match
     }
 
     /**
+     * @return string
+     */
+    public function getHomeTeamForm()
+    {
+        return $this->homeTeamForm;
+    }
+
+    /**
+     * @param string $homeTeamForm
+     */
+    public function setHomeTeamForm($homeTeamForm)
+    {
+        $this->homeTeamForm = $homeTeamForm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAwayTeamForm()
+    {
+        return $this->awayTeamForm;
+    }
+
+    /**
+     * @param string $awayTeamForm
+     */
+    public function setAwayTeamForm($awayTeamForm)
+    {
+        $this->awayTeamForm = $awayTeamForm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomeTeamHomeForm()
+    {
+        return $this->homeTeamHomeForm;
+    }
+
+    /**
+     * @param string $homeTeamHomeForm
+     */
+    public function setHomeTeamHomeForm($homeTeamHomeForm)
+    {
+        $this->homeTeamHomeForm = $homeTeamHomeForm;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAwayTeamAwayForm()
+    {
+        return $this->awayTeamAwayForm;
+    }
+
+    /**
+     * @param string $awayTeamAwayForm
+     */
+    public function setAwayTeamAwayForm($awayTeamAwayForm)
+    {
+        $this->awayTeamAwayForm = $awayTeamAwayForm;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTablePosition()
+    {
+        return $this->tablePosition;
+    }
+
+    /**
+     * @param int $tablePosition
+     */
+    public function setTablePosition($tablePosition)
+    {
+        $this->tablePosition = $tablePosition;
+    }
+
+    /**
      * @return float|int|null
      */
     public function getExpectedProfit()
@@ -335,6 +447,8 @@ class Match
     {
         return $this->getDateTime()->format('c').": ".
             $this->homeTeam->getName()." vs ".$this->awayTeam->getName().
-            " (".$this->tournament->getName().")";
+            " (".$this->tournament->getName().") homeTeamForm: {$this->getHomeTeamForm()}".
+            " awayTeamForm: {$this->getAwayTeamForm()} homeForm: {$this->getHomeTeamHomeForm()}".
+            " awayForm: {$this->getAwayTeamAwayForm()}";
     }
 }

@@ -45,6 +45,7 @@ return [
             PickForWin\Command\PickForWin::class => PickForWin\Command\PickForWinFactory::class,
             PickForWin\Service\PickForWinService::class => PickForWin\Service\PickForWinServiceFactory::class,
             Match\Service\MatchService::class => Match\Service\MatchServiceFactory::class,
+            Monolog\Logger::class => Monolog\LoggerFactory::class,
             Scrapy\Service\ScrapyService::class => Scrapy\Service\ScrapyServiceFactory::class,
             Team\Service\TeamService::class => Team\Service\TeamServiceFactory::class,
             Tournament\Service\TournamentService::class => Tournament\Service\TournamentServiceFactory::class,

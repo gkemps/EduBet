@@ -29,8 +29,6 @@ class PredictionByWeekService
     ) {
         $this->strategies = $strategies;
         $this->matchService = $matchService;
-
-        $this->matches = $matchService->getResults();
     }
 
     /**
@@ -38,6 +36,8 @@ class PredictionByWeekService
      */
     public function getPredictionsByWeek()
     {
+        $this->getMatches();
+
         $predictionByWeek = new PredictionByWeek();
         foreach ($this->strategies as $strategy) {
             $predictionByWeek  = $strategy->predictionByWeek($this->matches, $predictionByWeek);
@@ -51,11 +51,22 @@ class PredictionByWeekService
      */
     public function getProfitByWeek()
     {
+        $this->getMatches();
+
         $profitByWeek = new ProfitByWeek();
         foreach ($this->strategies as $strategy) {
             $profitByWeek  = $strategy->profitByWeek($this->matches, $profitByWeek);
         }
 
         return $profitByWeek;
+    }
+
+    protected function getMatches()
+    {
+        if (!is_null($this->matches)) {
+            return;
+        }
+
+        $this->matches = $this->matchService->getResults();
     }
 }

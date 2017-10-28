@@ -122,8 +122,9 @@ class MatchService
         $match->setTimestamp($timestamp->getTimestamp());
         $match->setWhoScoredId($whoScoredId);
 
+        $this->determineForm($match);
+
         $this->persist($match);
-        $this->log($match->toString());
 
         return $match;
     }
@@ -193,6 +194,108 @@ class MatchService
     }
 
     /**
+     * @param Team $team
+     * @param int $limit
+     * @return array
+     */
+    public function getLastHomeMatches(Team $team, $limit = 5)
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from(Match::class, "m")
+            ->leftJoin("m.result", "r")
+            ->where($qb->expr()->eq("m.homeTeam", $team->getId()))
+            ->andWhere($qb->expr()->isNotNull("r.id"))
+            ->orderBy("m.timestamp", "DESC")
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Team $team
+     * @param int $limit
+     * @return array
+     */
+    public function getLastAwayMatches(Team $team, $limit = 5)
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from(Match::class, "m")
+            ->leftJoin("m.result", "r")
+            ->where($qb->expr()->eq("m.awayTeam", $team->getId()))
+            ->andWhere($qb->expr()->isNotNull("r.id"))
+            ->orderBy("m.timestamp", "DESC")
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Team $team
+     * @param int $limit
+     * @return array
+     */
+    public function getLastMatches(Team $team, $limit = 5)
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select("m")
+            ->from(Match::class, "m")
+            ->leftJoin("m.result", "r")
+            ->where(
+                $qb->expr()->orX(
+                    $qb->expr()->eq("m.homeTeam", $team->getId()),
+                    $qb->expr()->eq("m.awayTeam", $team->getId())
+                )
+            )
+            ->andWhere($qb->expr()->isNotNull("r.id"))
+            ->orderBy("m.timestamp", "DESC")
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param Match $match
+     */
+    protected function determineForm(Match $match)
+    {
+        $homeMatches = $this->getLastHomeMatches($match->getHomeTeam());
+        $homeTeamHomeForm = $this->formString($homeMatches, $match->getHomeTeam());
+        $match->setHomeTeamHomeForm($homeTeamHomeForm);
+
+        $awayMatches = $this->getLastAwayMatches($match->getAwayTeam());
+        $awayTeamAwayForm = $this->formString($awayMatches, $match->getAwayTeam());
+        $match->setAwayTeamAwayForm($awayTeamAwayForm);
+
+        $homeTeamMatches = $this->getLastMatches($match->getHomeTeam());
+        $homeTeamForm = $this->formString($homeTeamMatches, $match->getHomeTeam());
+        $match->setHomeTeamForm($homeTeamForm);
+
+        $awayTeamMatches = $this->getLastMatches($match->getAwayTeam());
+        $awayTeamForm = $this->formString($awayTeamMatches, $match->getAwayTeam());
+        $match->setAwayTeamForm($awayTeamForm);
+    }
+
+    /**
+     * @param array|Match[] $matches
+     * @param Team $team
+     * @return string
+     */
+    protected function formString(array $matches, Team $team)
+    {
+        $form = "";
+        foreach ($matches as $match) {
+            $form = $match->getResult()->getTeamResultString($team) . $form;
+        }
+
+        return $form;
+    }
+
+    /**
      * @param Match $match
      */
     protected function persist(Match $match)
@@ -207,13 +310,5 @@ class MatchService
     protected function getRepository()
     {
         return $this->em->getRepository("EduBet\Match\Entity\Match");
-    }
-
-    /**
-     * @param string $message
-     */
-    protected function log(string $message)
-    {
-        print $message . "\r\n";
     }
 }

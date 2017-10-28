@@ -26,23 +26,10 @@ class PreviewMatches
                 $fileName = "data/preview/matches/".$file;
                 $html = file_get_contents($fileName);
 
-                $whoScoredPreview = $this->whoScoredPreviewMatchesService->extractMatchInfo(
+                $this->whoScoredPreviewMatchesService->extractMatchInfo(
                     substr($file, 0, strpos($file, ".")),
                     $html
                 );
-
-                if (false != $whoScoredPreview) {
-                    print $whoScoredPreview->getMatch()->getHomeTeam()->getName();
-                    print "(".$whoScoredPreview->getMatch()->getHomeTeam()->getWhoScoredId().")";
-                    print " - ";
-                    print $whoScoredPreview->getMatch()->getAwayTeam()->getName();
-                    print "(".$whoScoredPreview->getMatch()->getAwayTeam()->getWhoScoredId().")";
-                    print " ";
-                    print $whoScoredPreview->getHomeScore();
-                    print " - ";
-                    print $whoScoredPreview->getAwayScore();
-                    print "\r\n";
-                }
 
                 unlink($fileName);
             }

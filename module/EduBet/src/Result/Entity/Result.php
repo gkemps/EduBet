@@ -3,6 +3,7 @@ namespace EduBet\Result\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use EduBet\Match\Entity\Match;
+use EduBet\Team\Entity\Team;
 
 /**
  * @ORM\Entity
@@ -118,5 +119,32 @@ class Result
         } else {
             return 3;
         }
+    }
+
+    /**
+     * @param Team $team
+     * @return string
+     */
+    public function getTeamResultString(Team $team)
+    {
+        switch ($this->getToto()) {
+            case 1:
+                if ($this->getMatch()->getHomeTeam()->getId() == $team->getId()) {
+                    return "W";
+                }
+                return "L";
+                break;
+            case 2:
+                if ($this->getMatch()->getAwayTeam()->getId() == $team->getId()) {
+                    return "W";
+                }
+                return "L";
+                break;
+            case 3:
+                return "D";
+                break;
+        }
+
+        return "?";
     }
 }
