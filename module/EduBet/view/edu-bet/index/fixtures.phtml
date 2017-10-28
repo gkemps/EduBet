@@ -59,8 +59,10 @@ use EduBet\Match\Entity\Match;
                 <br />
                 <span style="font-size:9px;line-height:1.0">
                     <?php echo $match->getHomeTeamForm()." (T:".$match->getHomeTeamHomeForm().")"; ?>
-                    <br />
-                    <?php echo $match->getHomeTablePosition()."e in ".$match->getTournament()->getName(); ?>
+                    <?php if (null != $match->getHomeTablePosition()): ?>
+                        <br />
+                        <?php echo $match->getHomeTablePosition()."e in ".$match->getTournament()->getName(); ?>
+                    <?php endif ?>
                 </span>
             </td>
             <td>
@@ -68,8 +70,10 @@ use EduBet\Match\Entity\Match;
                 <br />
                 <span style="font-size:9px;line-height:1.0">
                     <?php echo $match->getAwayTeamForm()." (U:".$match->getAwayTeamAwayForm().")"; ?>
-                    <br />
-                    <?php echo $match->getAwayTablePosition()."e in ".$match->getTournament()->getName(); ?>
+                    <?php if (null != $match->getAwayTablePosition()): ?>
+                        <br />
+                        <?php echo $match->getAwayTablePosition()."e in ".$match->getTournament()->getName(); ?>
+                    <?php endif ?>
                 </span>
             </td>
             <td>
