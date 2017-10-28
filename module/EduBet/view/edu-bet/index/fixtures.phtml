@@ -34,7 +34,17 @@ use EduBet\Match\Entity\Match;
     </thead>
     <tbody>
     <?php foreach ($matches as $match): ?>
-        <tr id="match-<?php echo $match->getId(); ?>">
+        <?php
+            $class = "";
+            $now = time();
+            if ($match->getTimestamp() < $now) {
+                $class = "success";
+            }
+            if (($match->getTimestamp() + (120 * 60)) < $now) {
+                $class = "danger";
+            }
+        ?>
+        <tr id="match-<?php echo $match->getId(); ?>" class="<?php echo $class; ?>">
             <th scope="row">
                 <?php echo $match->getDutchDateTime()->format("Y-m-d H:i"); ?>
             </th>
