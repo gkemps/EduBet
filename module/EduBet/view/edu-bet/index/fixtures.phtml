@@ -47,15 +47,19 @@ use EduBet\Match\Entity\Match;
             <td>
                 <?php echo $match->getHomeTeam()->getName(); ?>
                 <br />
-                <span style="font-size:9px">
+                <span style="font-size:9px;line-height:1.0">
                     <?php echo $match->getHomeTeamForm()." (T:".$match->getHomeTeamHomeForm().")"; ?>
+                    <br />
+                    <?php echo $match->getHomeTablePosition()."e in ".$match->getTournament()->getName(); ?>
                 </span>
             </td>
             <td>
                 <?php echo $match->getAwayTeam()->getName(); ?>
                 <br />
-                <span style="font-size:9px">
+                <span style="font-size:9px;line-height:1.0">
                     <?php echo $match->getAwayTeamForm()." (U:".$match->getAwayTeamAwayForm().")"; ?>
+                    <br />
+                    <?php echo $match->getAwayTablePosition()."e in ".$match->getTournament()->getName(); ?>
                 </span>
             </td>
             <td>

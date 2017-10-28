@@ -48,9 +48,9 @@ class WhoScoredPreviewMatchesService
             return false;
         }
 
-        if (null != $match->getWhoScoredPreview()) {
-            return false;
-        }
+//        if (null != $match->getWhoScoredPreview()) {
+//            return false;
+//        }
 
         $doc = new DOMDocument();
         @$doc->loadHTML($html);
@@ -73,6 +73,23 @@ class WhoScoredPreviewMatchesService
         $awayScoreSpan = $xpath->query(
             "//div[@id=\"preview-prediction\"]/div[contains(@class, 'away')]/span[contains(@class, 'predicted-score')]"
         )->item(0);
+        $tablePosition = $xpath->query(
+            "//table[@id=\"h2h-summary-standing-grid\"]/tbody/tr/td"
+        );
+
+        $firstTablePosition = (int) $tablePosition->item(0)->nodeValue;
+        $secondTablePosition = (int) $tablePosition->item(7)->nodeValue;
+
+        if (levenshtein($tablePosition->item(1)->nodeValue, $match->getHomeTeam()->getName()) <
+            levenshtein($tablePosition->item(1)->nodeValue, $match->getAwayTeam()->getName())) {
+            $match->setHomeTablePosition($firstTablePosition);
+            $match->setAwayTablePosition($secondTablePosition);
+        } else {
+            $match->setHomeTablePosition($secondTablePosition);
+            $match->setAwayTablePosition($firstTablePosition);
+        }
+
+        $this->matchService->updateMatch($match);
 
         if ($match->getHomeTeam()->getWhoScoredId() == null) {
             $hrefArray = explode("/", $homeTeamAnchor->getAttribute('href'));

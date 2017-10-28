@@ -128,7 +128,14 @@ class Match
      *
      * @var int
      */
-    protected $tablePosition;
+    protected $homeTablePosition;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @var int
+     */
+    protected $awayTablePosition;
 
     /**
      * @return int
@@ -394,17 +401,33 @@ class Match
     /**
      * @return int
      */
-    public function getTablePosition()
+    public function getHomeTablePosition()
     {
-        return $this->tablePosition;
+        return $this->homeTablePosition;
     }
 
     /**
-     * @param int $tablePosition
+     * @param int $homeTablePosition
      */
-    public function setTablePosition($tablePosition)
+    public function setHomeTablePosition($homeTablePosition)
     {
-        $this->tablePosition = $tablePosition;
+        $this->homeTablePosition = $homeTablePosition;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAwayTablePosition()
+    {
+        return $this->awayTablePosition;
+    }
+
+    /**
+     * @param int $awayTablePosition
+     */
+    public function setAwayTablePosition($awayTablePosition)
+    {
+        $this->awayTablePosition = $awayTablePosition;
     }
 
     /**
