@@ -83,7 +83,7 @@ class WhoScoredPreviewOverviewService
                     $tournament = $this->findTournament($td) ?? $tournament;
                     if (false != stripos($td->nodeValue, " vs ")) {
                         $dateTime = new \DateTime();
-                        $dateTime->setTimestamp(strtotime($currentDay." ".$currentTime));
+                        $dateTime->setTimestamp(strtotime($currentDay." ".$currentTime) - 3600);
 
                         list($home, $away) = explode(" vs ", trim($td->nodeValue));
                         $homeTeam = $this->teamService->findOrCreateTeam($home);

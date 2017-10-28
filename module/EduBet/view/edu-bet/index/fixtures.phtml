@@ -10,7 +10,6 @@ use EduBet\Match\Entity\Match;
         <th></th>
         <th>Thuis</th>
         <th>Uit</th>
-        <th>Competitie</th>
         <th>Strategy</th>
         <th>WhoScored</th>
         <th colspan="3">Betfair Odds</th>
@@ -18,7 +17,6 @@ use EduBet\Match\Entity\Match;
     </tr>
     <tr>
         <th>Tijd</th>
-        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -38,22 +36,27 @@ use EduBet\Match\Entity\Match;
     <?php foreach ($matches as $match): ?>
         <tr id="match-<?php echo $match->getId(); ?>">
             <th scope="row">
-                <?php echo strftime("%Y-%m-%d %H:%M", $match->getTimestamp()); ?>
+                <?php echo $match->getDutchDateTime()->format("Y-m-d H:i"); ?>
             </th>
             <th scope="row">
-                <?php echo strftime("%a", $match->getTimestamp()); ?>
+                <?php echo $match->getDutchDateTime()->format("D"); ?>
             </th>
             <td>
                 <span class="<?php echo $this->flagClass($match); ?>"></span>
             </td>
             <td>
                 <?php echo $match->getHomeTeam()->getName(); ?>
+                <br />
+                <span style="font-size:9px">
+                    <?php echo $match->getHomeTeamForm()." (T:".$match->getHomeTeamHomeForm().")"; ?>
+                </span>
             </td>
             <td>
                 <?php echo $match->getAwayTeam()->getName(); ?>
-            </td>
-            <td>
-                <?php echo $match->getTournament()->getName(); ?>
+                <br />
+                <span style="font-size:9px">
+                    <?php echo $match->getAwayTeamForm()." (U:".$match->getAwayTeamAwayForm().")"; ?>
+                </span>
             </td>
             <td>
                 <?php echo $this->strategyLabels($match); ?>

@@ -206,6 +206,18 @@ class Match
     }
 
     /**
+     * @return DateTime
+     */
+    public function getDutchDateTime()
+    {
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp($this->getTimestamp());
+        $dateTime->setTimezone(new \DateTimeZone("Europe/Amsterdam"));
+
+        return $dateTime;
+    }
+
+    /**
      * @param int $timestamp
      */
     public function setTimestamp($timestamp)
